@@ -24,7 +24,7 @@ int main() {
   for (int y = 0; y < image.rows; y++) //go through all rows (or scanlines)
     for (int x = 0; x < image.cols; x++) { //go through all columns
       image.at<Vec3b>(y, x)[0] = x; //set blue component
-      image.at<Vec3b>(y, x)[1] = y; //set green component  
+      image.at<Vec3b>(y, x)[1] = y; //set green component
       image.at<Vec3b>(y, x)[2] = 255 - image.at<Vec3b>(y, x)[1]; //set red component
     }
 
@@ -35,7 +35,7 @@ int main() {
   imshow("Display window", image);
 
   //wait for a key press until returning from the program
-  waitKey(0); 
+  waitKey(0);
 
   //free memory occupied by image 
   image.release();

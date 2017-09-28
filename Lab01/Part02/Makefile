@@ -1,6 +1,5 @@
 FILENAME = colourthr
 
-
 help:
 	# build     - Builds targets
 
@@ -34,4 +33,11 @@ build:
 	    -ldl \
 	  \$(FILENAME).cpp \
 	  \-o $(FILENAME).out
+
+
+execute:
+	./$(FILENAME).out
+
+
+run: build execute
 
