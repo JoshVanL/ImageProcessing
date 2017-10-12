@@ -7,7 +7,7 @@
 using namespace cv;
 
 void GaussianBlur(
-	cv::Mat &input, 
+	cv::Mat &input,
 	int size,
 	cv::Mat &blurredOutput);
 
