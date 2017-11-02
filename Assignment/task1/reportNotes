@@ -7,6 +7,7 @@ Detected: 1
 Hit: 1
 Missed: 0
 Wrong: 0
+F1: 1
 
 ------
 dart5.jpg
@@ -16,6 +17,7 @@ Detected: 14
 Hit: 11
 Missed: 0
 Wrong: 3
+F1: 0.88
 
 ------
 dart13.jpg
@@ -25,6 +27,7 @@ Detected: 2
 Hit: 1
 Missed: 0
 Wrong: 1
+F1: 0.67
 
 ------
 dart14.jpg
@@ -34,6 +37,7 @@ Detected: 6
 Hit: 2
 Missed: 0
 Wrong: 4
+F1: 1/2
 
 ------
 dart15.jpg
@@ -43,6 +47,7 @@ Detected: 4
 Hit: 2
 Missed: 1
 Wrong: 2
+F1: 4/7
 
 b)
 TPR (true positive rate)
