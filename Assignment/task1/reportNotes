@@ -1,0 +1,69 @@
+a)
+------
+dart4.jpg
+
+Actual: 1
+Detected: 1
+Hit: 1
+Missed: 0
+Wrong: 0
+
+------
+dart5.jpg
+
+Actual: 11
+Detected: 14
+Hit: 11
+Missed: 0
+Wrong: 3
+
+------
+dart13.jpg
+
+Actual: 1
+Detected: 2
+Hit: 1
+Missed: 0
+Wrong: 1
+
+------
+dart14.jpg
+
+Actual: 2
+Detected: 6
+Hit: 2
+Missed: 0
+Wrong: 4
+
+------
+dart15.jpg
+
+Actual: 3
+Detected: 4
+Hit: 2
+Missed: 1
+Wrong: 2
+
+b)
+TPR (true positive rate)
+---
+The fraction of successfully detected faces out of all valid faces in an image.
+
+dart5.jpg
+---------
+11/11 = 100%
+
+dat15.jpg
+---------
+2/3 = 67%
+
+Difficult because you have to manually count the number of correct and missed hits.
+Can always get 100% because you can detect everything in the image and so will always get all possible hits.
+
+c)
+F1 Score
+--------
+Precision = how many selected items are relevant (hits / detections)
+Recall = how relevant items are selected  -- TPR
+
+F1 = 2 (precision * recall) / (precision + recall)
