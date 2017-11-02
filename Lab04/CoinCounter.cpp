@@ -5,6 +5,7 @@
 #include <opencv/cxcore.h>    //depending on your machine setup
 #include <math.h>       /* atan */
 
+#define PI 3.14159265
 
 using namespace cv;
 
@@ -47,7 +48,8 @@ int main( int argc, char** argv )
 
  imwrite( "imgs/gradX.png", imageX );
  imwrite( "imgs/gradY.png", imageY );
- imwrite( "imgs/magnitude.png", imageY );
+ imwrite( "imgs/magnitude.png", Magnitude );
+ imwrite( "imgs/direction.png", Direction );
 
  return 0;
 }
@@ -134,7 +136,8 @@ void Sobel(cv::Mat &input, cv::Mat &OutputX, cv::Mat &OutputY, cv::Mat &Magnitud
     }
 
 
-    uchar x, y;
+    double x, y;
+    double Mag[input.rows][input.cols];
 
 	for ( int i = 0; i < input.rows; i++ )
 	{
@@ -142,13 +145,56 @@ void Sobel(cv::Mat &input, cv::Mat &OutputX, cv::Mat &OutputY, cv::Mat &Magnitud
 		{
             x  = (255 * (WorkX[i][j] - minX) / (maxX - minX));
             y  = (255 * (WorkY[i][j] - minY) / (maxY - minY));
-            OutputX.at<uchar>(i, j) = x;
-            OutputY.at<uchar>(i, j) = y;
-            Magnitude.at<uchar>(i, j) = (uchar) sqrt((x * x) + (y * y));
-            Direction.at<uchar>(i, j) = atan (y / x)
+            OutputX.at<uchar>(i, j) = (uchar) x;
+            OutputY.at<uchar>(i, j) = (uchar) y;
+
+            Mag[i][j] = sqrt((x * x) + (y * y));
+
+            //result = sqrt((WorkX[i][j] * WorkX[i][j]) + (WorkY[i][j] * WorkY[i][j]));
+            //y  = (255 * (WorkY[i][j] - minY) / (maxY - minY));
+            //Magnitude.at<uchar>(i, j) = (uchar) sqrt((x * x) + (y * y));
         }
     }
 
-  result = atan (param) * 180 / PI;
+    minX = 999999999999;
+    maxX = 0;
+	for ( int i = 0; i < input.rows; i++ )
+	{
+		for( int j = 0; j < input.cols; j++ )
+		{
+            if (Mag[i][j] > maxX) {
+                maxX = Mag[i][j];
+            }
+            if (Mag[i][j] < minX) {
+                minX = Mag[i][j];
+            }
+        }
+    }
+	for ( int i = 0; i < input.rows; i++ )
+	{
+		for( int j = 0; j < input.cols; j++ )
+		{
+            x  = (255 * (Mag[i][j] - minX) / (maxX - minX));
+            Magnitude.at<uchar>(i, j) = (uchar) x;
+        }
+    }
 
+    minX = 0;
+    maxX = 2*PI;
+
+    double result;
+    for ( int i = 0; i < input.rows; i++ )
+    {
+        for( int j = 0; j < input.cols; j++ )
+        {
+            printf("%f - ", WorkX[i][j]);
+            result = atan(WorkY[i][j] / WorkX[i][j]);
+            if (result < 0) {
+                result = -result;
+            }
+            //x  = (255 * (result - minX) / (maxX - minX));
+            //Direction.at<uchar>(i, j) = (uchar) x;
+            Direction.at<uchar>(i, j) = (uchar)(180.0 + result / M_PI * 180.0);
+        }
+    }
 }
