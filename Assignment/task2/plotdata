@@ -1,0 +1,168 @@
+1000x1000
+Stage 0-
+TPR: 1
+FPR: 1
+
+Stage 1-
+TPR: 1
+FPR: 0.0326467
+
+Stage 2-
+TPR: 1
+FPR: 0.00120693
+
+---
+
+500x500
+Stage 0-
+TPR: 1
+FPR: 1
+
+Stage 1-
+TPR: 1
+FPR: 0.0681292
+
+Stage 2-
+TPR: 1
+FPR: 0.00276133
+
+---
+
+dart0.jpg
+
+Hit: 2
+Detected: 14
+P:0.142857
+F1: 0.25
+
+------
+dart1.jpg
+
+Hit: 4
+Detected: 8
+P:0.5
+F1: 2/3
+
+------
+
+dart2.jpg
+
+Hit: 1
+Detected: 7
+P:0.142857
+F1: 0.25
+
+------
+
+dart3.jpg
+
+Hit: 3
+Detected: 6
+P:0.5
+F1: 2/3
+
+
+-----
+
+dart4.jpg
+
+Hit: 1
+Detected: 11
+P:0.090909090909
+F1: 1/6
+
+-----
+
+dart5.jpg
+
+Hit: 2
+Detected: 15
+P:0.13333333333333333
+F1: 4/17
+
+-----
+
+dart6.jpg
+
+Hit: 3
+Detected: 17
+P:0.1764705
+F1: 3/10
+
+-----
+
+dart7.jpg
+
+Hit: 2
+Detected: 38
+P:0.05263157
+F1: 1/10
+
+-----
+
+dart8.jpg
+
+Hit: 7
+Detected: 54
+P:0.1296296
+F1: 14/61
+
+-----
+
+dart9.jpg
+
+Hit: 2
+Detected: 14
+P:0.1428571
+F1: 1/4
+
+-----
+
+dart10.jpg
+
+Hit: 4
+Detected: 51
+P:0.07843
+F1: 8/55
+
+-----
+
+dart11.jpg
+
+Hit: 2
+Detected: 6
+P:0.33333
+F1: 1/2
+
+-----
+
+dart12.jpg
+
+Hit: 3
+Detected: 5
+F1: 3/4
+
+-----
+
+dart13.jpg
+
+Hit: 2
+Detected: 7
+F1: 4/9
+
+-----
+
+dart14.jpg
+
+Hit: 4
+Detected: 61
+F1: 8/65
+
+-----
+
+dart15.jpg
+
+Hit: 1
+Detected: 13
+F1: 1/7
+
