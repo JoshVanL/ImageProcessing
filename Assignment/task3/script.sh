@@ -6,8 +6,9 @@ iter=13
 counter=0
 while [ $counter -le $iter ]
 do
-    printf $counter
+    printf "$counter: "
     ./out imgs/dart$counter.jpg imgs/out$counter.jpg
     ((counter++))
+    printf "done.\n"
 done
-echo All done
+echo completed
