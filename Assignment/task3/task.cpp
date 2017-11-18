@@ -261,8 +261,6 @@ void HoughTransformCircle(cv::Mat &input, cv::Mat &output)
 
 void ViolaJones(Mat frame, cv::Mat &output)
 {
-    cascade.load( cascade_name );
-
     std::vector<Rect> faces;
     Mat frame_gray;
 
@@ -293,6 +291,12 @@ int main( int argc, const char** argv )
     if(!image.data )
     {
         printf( " No image data \n " );
+        return -1;
+    }
+
+    if(!cascade.load( cascade_name ) )
+    {
+        printf("Could no load cascade xml\n");
         return -1;
     }
 
