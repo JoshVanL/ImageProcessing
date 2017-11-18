@@ -36,17 +36,19 @@ class Detector {
     vector<Rect> viola_hits;
     vector<DartBoard> dartboards;
     public:
-        Mat image, overlay_image;
+        Mat image, overlay_image, detections_image;
         int read_image (char*);
         int load_cascade (char*);
         void convert_grey();
         Mat convolve(Mat);
         void sobel();
-        void write_image_mag(String);
         void houghTransformLine();
         void houghTransformCircle();
         void violaJones();
+        void combineDectections();
+        void write_image_mag(String);
         void write_overlay_image(String);
+        void write_detections_image(String);
 };
 
 Mat Detector::convolve (Mat kernel) {
@@ -302,12 +304,55 @@ void Detector::violaJones() {
     return;
 }
 
+void Detector::combineDectections() {
+    vector<Rect>::iterator viola;
+    for (viola = viola_hits.begin(); viola!= viola_hits.end(); ++viola) {
+        vector<Point> hits;
+
+        vector<Point>::iterator line_hit;
+        for (line_hit = line_hits.begin(); line_hit != line_hits.end(); ++line_hit) {
+
+            if (line_hit->x >= viola->x && line_hit->y >= viola->y && line_hit->x <= (viola->x + viola->width) && line_hit->y <= (viola->y + viola->height)) {
+                hits.push_back(*line_hit);
+            }
+
+        }
+
+        if(hits.empty()) {
+            continue;
+        }
+
+        float avx, avy, radius;
+        avx = 0;
+        avy = 0;
+        vector<Point>::iterator point;
+        for (point = hits.begin(); point != hits.end(); ++point) {
+            avx += point->x;
+            avy += point->y;
+        }
+        avx = avx / hits.size();
+        avy = avy / hits.size();
+        radius = (viola->width + viola->height) / 2;
+
+        DartBoard dartboard;
+        dartboard.center = {int(avx), int(avy)};
+        dartboard.radius = radius;
+        dartboards.push_back(dartboard);
+    }
+
+    return;
+}
+
+
 int Detector::read_image (char* path) {
     image = imread(path, CV_LOAD_IMAGE_COLOR);
     if(!image.data){
         printf("No image data \n");
         return -1;
     }
+
+    overlay_image = image.clone();
+    detections_image = image.clone();
 
     return 0;
 }
@@ -340,19 +385,17 @@ void Detector::write_overlay_image(String path) {
     return;
 }
 
-//void Detector::CombineDectections() {
-//   //vector<Point> line_hits;
-//   //vector<CircleDetection> circle_hits;
-//   //vector<Rect> viola_hits;
-//
-//   vector<Point>::iterator center;
-//   for (center = centers.begin(); center != centers.end(); ++center) {
-//           printf("%d-%d\n", center->x, center->y);
-//   }
-//
-//
-//   return;
-//}
+void Detector::write_detections_image(String path) {
+    vector<DartBoard>::iterator dartboard;
+    for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
+        circle(detections_image, dartboard->center, 3, Scalar(0,0,255), -1, 8, 0 );
+        circle(detections_image, dartboard->center, dartboard->radius, Scalar(0,0,255), 3, 8, 0 );
+    }
+
+    imwrite(path, detections_image);
+
+    return;
+}
 
 int main( int argc, char** argv ) {
     Detector detector;
@@ -368,7 +411,6 @@ int main( int argc, char** argv ) {
         return -1;
     }
 
-    detector.overlay_image = detector.image;
     detector.convert_grey();
 
     detector.sobel();
@@ -376,7 +418,10 @@ int main( int argc, char** argv ) {
     detector.houghTransformCircle();
     detector.violaJones();
 
-    detector.write_overlay_image(argv[2]);
+    detector.combineDectections();
+
+    //detector.write_overlay_image(argv[2]);
+    detector.write_detections_image(argv[2]);
 
     return 0;
 }
