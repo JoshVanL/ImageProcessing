@@ -17,29 +17,39 @@ using namespace std;
 #define PI 3.14159265
 
 /** Global variables */
-String cascade_path = "cascade.xml";
 CascadeClassifier cascade;
 
-class Classifier {
-    Mat mag, grey;
-    vector<Point> centers;
-    vector<Point> circle_centers;
-    vector<Rect> viola;
-    public:
-    Mat image, output_image;
-    int read_image (char*);
-    int load_cascade (String);
-    void convert_grey();
-    Mat convolve(Mat);
-    void sobel();
-    void write_image_mag(String);
-    void houghTransformLine();
-    void houghTransformCircle();
-    void violaJones();
-    void write_output_image(String);
+struct DartBoard {
+    Point center;
+    int radius;
 };
 
-Mat Classifier::convolve (Mat kernel) {
+struct CircleDetection {
+    Point center;
+    int radius;
+};
+
+class Detector {
+    Mat mag, grey;
+    vector<Point> line_hits;
+    vector<CircleDetection> circle_hits;
+    vector<Rect> viola_hits;
+    vector<DartBoard> dartboards;
+    public:
+        Mat image, overlay_image;
+        int read_image (char*);
+        int load_cascade (char*);
+        void convert_grey();
+        Mat convolve(Mat);
+        void sobel();
+        void write_image_mag(String);
+        void houghTransformLine();
+        void houghTransformCircle();
+        void violaJones();
+        void write_overlay_image(String);
+};
+
+Mat Detector::convolve (Mat kernel) {
     Mat output;
     output.create(grey.size(), grey.type());
 
@@ -102,7 +112,7 @@ Mat Classifier::convolve (Mat kernel) {
     return output;
 }
 
-void Classifier::sobel() {
+void Detector::sobel() {
     cv::Mat outputX, outputY;
     outputX.create(grey.size(), grey.type());
     outputY.create(grey.size(), grey.type());
@@ -175,7 +185,7 @@ bool intersection(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r) {
 }
 
 
-void Classifier::houghTransformLine() {
+void Detector::houghTransformLine() {
     Mat workImage;
     vector<Vec2f> lines;
 
@@ -242,8 +252,8 @@ void Classifier::houghTransformLine() {
                 Point center;
                 center.x = i;
                 center.y = j;
-                circle( output_image, center, 7, Scalar(30,255,30), -1, 8, 0 );
-                centers.push_back(center);
+                circle( overlay_image, center, 7, Scalar(30,255,30), -1, 8, 0 );
+                line_hits.push_back(center);
             }
         }
     }
@@ -252,7 +262,7 @@ void Classifier::houghTransformLine() {
 }
 
 
-void Classifier::houghTransformCircle() {
+void Detector::houghTransformCircle() {
     Mat blur_image;
     vector<Vec3f> circles;
 
@@ -267,41 +277,43 @@ void Classifier::houghTransformCircle() {
     //param_2 = 100*: Threshold for center detection.
     //min_radius = 0: Minimum radio to be detected. If unknown, put zero as default.
     //max_radius = 0: Maximum radius to be detected. If unknown, put zero as default
-    HoughCircles(blur_image, circles, CV_HOUGH_GRADIENT, 1, output_image.rows/16, 100, 35, 10, 120);
+    HoughCircles(blur_image, circles, CV_HOUGH_GRADIENT, 1, overlay_image.rows/16, 100, 35, 10, 120);
 
     for( size_t i = 0; i < circles.size(); i++ ) {
         Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
         int radius = cvRound(circles[i][2]);
-        circle( output_image, center, 3, Scalar(0,0,255), -1, 8, 0 );
-        circle( output_image, center, radius, Scalar(0,0,255), 3, 8, 0 );
-        circle_centers.push_back(center);
+        circle( overlay_image, center, 3, Scalar(0,0,255), -1, 8, 0 );
+        circle( overlay_image, center, radius, Scalar(0,0,255), 3, 8, 0 );
+
+        CircleDetection circle_hit = {center, radius};
+        circle_hits.push_back(circle_hit);
     }
 
     return;
 }
 
-void Classifier::violaJones() {
-    cascade.detectMultiScale(grey, viola, 1.1, 1, 0|CV_HAAR_SCALE_IMAGE, Size(50, 50), Size(500,500) );
+void Detector::violaJones() {
+    cascade.detectMultiScale(grey, viola_hits, 1.1, 1, 0|CV_HAAR_SCALE_IMAGE, Size(50, 50), Size(500,500) );
 
-    for( int i = 0; i < viola.size(); i++ ) {
-        rectangle(output_image, Point(viola[i].x, viola[i].y), Point(viola[i].x + viola[i].width, viola[i].y + viola[i].height), Scalar( 255, 0, 0 ), 2);
+    for( int i = 0; i < viola_hits.size(); i++ ) {
+        rectangle(overlay_image, Point(viola_hits[i].x, viola_hits[i].y), Point(viola_hits[i].x + viola_hits[i].width, viola_hits[i].y + viola_hits[i].height), Scalar( 255, 0, 0 ), 2);
     }
 
     return;
 }
 
-int Classifier::read_image (char* path) {
+int Detector::read_image (char* path) {
     image = imread(path, CV_LOAD_IMAGE_COLOR);
     if(!image.data){
-        printf( " No image data \n " );
+        printf("No image data \n");
         return -1;
     }
 
     return 0;
 }
 
-int Classifier::load_cascade(String path) {
-    if(!cascade.load( path )) {
+int Detector::load_cascade(char* path) {
+    if(!cascade.load(path)) {
         printf("Could no load cascade xml\n");
         return -1;
     }
@@ -309,49 +321,62 @@ int Classifier::load_cascade(String path) {
     return 0;
 }
 
-void Classifier::write_image_mag(String path) {
+void Detector::write_image_mag(String path) {
     imwrite(path, mag);
+
+    return;
 }
 
-void Classifier::convert_grey() {
+void Detector::convert_grey() {
     cvtColor(image, grey, CV_BGR2GRAY);
     //equalizeHist(grey, grey);
+
+    return;
 }
 
-void Classifier::write_output_image(String path) {
-    imwrite(path, output_image);
+void Detector::write_overlay_image(String path) {
+    imwrite(path, overlay_image);
+
+    return;
 }
+
+//void Detector::CombineDectections() {
+//   //vector<Point> line_hits;
+//   //vector<CircleDetection> circle_hits;
+//   //vector<Rect> viola_hits;
+//
+//   vector<Point>::iterator center;
+//   for (center = centers.begin(); center != centers.end(); ++center) {
+//           printf("%d-%d\n", center->x, center->y);
+//   }
+//
+//
+//   return;
+//}
 
 int main( int argc, char** argv ) {
-    Classifier darts;
+    Detector detector;
 
-    if (argc != 3) {
-        printf("enter input and output image only");
+    if (argc != 4) {
+        printf("enter [input image] [output image] [cascade file]\n");
+        return -1;
+    }
+    if (detector.read_image(argv[1])) {
+        return -1;
+    }
+    if (detector.load_cascade(argv[3])) {
         return -1;
     }
 
-    if (darts.read_image(argv[1])) {
-        return -1;
-    }
-    if (darts.load_cascade(cascade_path)) {
-        return -1;
-    }
+    detector.overlay_image = detector.image;
+    detector.convert_grey();
 
-    darts.output_image = darts.image;
-    darts.convert_grey();
+    detector.sobel();
+    detector.houghTransformLine();
+    detector.houghTransformCircle();
+    detector.violaJones();
 
-    darts.sobel();
-    darts.houghTransformLine();
-    darts.houghTransformCircle();
-    darts.violaJones();
-
-    darts.write_output_image(argv[2]);
-
-    //vector<Point>::iterator center;
-    //for (center = centers.begin(); center != centers.end(); ++center) {
-    //        printf("%d-%d\n", center->x, center->y);
-    //}
-
+    detector.write_overlay_image(argv[2]);
 
     return 0;
 }
