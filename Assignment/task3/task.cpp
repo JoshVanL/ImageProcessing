@@ -20,9 +20,12 @@ using namespace std;
 /** Global variables */
 CascadeClassifier cascade;
 
+//struct DartBoard {
+//    Point2f center;
+//    int radius;
+//};
 struct DartBoard {
-    Point2f center;
-    int radius;
+    Rect bounding_box;
 };
 
 struct CircleDetection {
@@ -38,6 +41,7 @@ class Detector {
         vector<Rect> viola_hits;
         vector<DartBoard> dartboards;
         void deduplicate_hits();
+        bool contains(Rect, Rect);
     public:
         Mat image, overlay_image, detections_image;
         int read_image (char*);
@@ -52,6 +56,7 @@ class Detector {
         void write_image_mag(String);
         void write_overlay_image(String);
         void write_detections_image(String);
+        void equalize_hist();
 };
 
 Mat Detector::convolve (Mat kernel) {
@@ -337,8 +342,8 @@ void Detector::combineDectections() {
             continue;
         }
 
-        float avx, avy, radius;
-        avx = avy = radius = 0;
+        float avx, avy, avwidth, avheight;
+        avx = avy = avwidth = avheight = 0;
 
         for (line_hit = line_score.begin(); line_hit != line_score.end(); ++line_hit) {
             avx += line_hit->x;
@@ -347,16 +352,20 @@ void Detector::combineDectections() {
         for (circle_hit = circle_score.begin(); circle_hit != circle_score.end(); ++circle_hit) {
             avx += circle_hit->center.x;
             avy += circle_hit->center.y;
-            radius += circle_hit->radius;
+            avwidth += (circle_hit->radius * 2);
+            avheight += (circle_hit->radius * 2);
         }
 
         avx = avx / (line_score.size() + circle_score.size());
         avy = avy / (line_score.size() + circle_score.size());
-        radius = (viola->width + viola->height + radius) / (2 + circle_score.size());
+        avwidth = (viola->width + avwidth) / (circle_score.size() + 1);
+        avheight = (viola->height + avheight) / (circle_score.size() + 1);
 
         DartBoard dartboard;
-        dartboard.center = {avx, avy};
-        dartboard.radius = radius;
+        dartboard.bounding_box.x = avx - (avwidth / 2);
+        dartboard.bounding_box.y = avy - (avheight / 2);
+        dartboard.bounding_box.width = avwidth;
+        dartboard.bounding_box.height = avheight;
         dartboards.push_back(dartboard);
     }
 
@@ -370,11 +379,7 @@ void Detector::deduplicate_hits() {
     //Loop till clone is empty
         //Loop through clone, find largest, remove.
         //Loop through clone, find all that are smaller, remove and average them -> add to new set
-
-    //struct DartBoard {
-    //    Point center;
-    //    int radius;
-    //};
+    //Use new deduplicated set
 
     vector<DartBoard>dartboards_clone = dartboards;
     vector<DartBoard>deduplicated_hits;
@@ -382,30 +387,28 @@ void Detector::deduplicate_hits() {
     DartBoard largest;
 
     while (dartboards_clone.size() > 0) {
-        //int index = 0;
         float distance;
-        float avx, avy, avradius;
+        float avx, avy, avwidth, avheight;
         int sum_duplicates = 1;
 
         largest = dartboards_clone.back();
-        avx = largest.center.x;
-        avy = largest.center.y;
-        avradius = largest.radius;
+        avx = largest.bounding_box.x;
+        avy = largest.bounding_box.y;
+        avwidth = largest.bounding_box.width;
+        avheight = largest.bounding_box.height;
         dartboards_clone.erase(dartboards_clone.end() -1);
 
-        //for (dartboard = dartboards_clone.begin(); dartboard != dartboards_clone.end(); ++dartboard) {
         for(unsigned index = dartboards_clone.size(); index-- > 0;) {
 
             dartboard = dartboards_clone.at(index);
 
-            distance = sqrt((pow((dartboard.center.x - largest.center.x), 2) + pow((dartboard.center.y - largest.center.y), 2)));
-
             //if dis < dartboard radius, dartboard larger, av, remove
-            if (distance < dartboard.radius) {
+            if (contains(dartboard.bounding_box, largest.bounding_box)) {
                 sum_duplicates++;
-                avx += dartboard.center.x;
-                avy += dartboard.center.y;
-                avradius += dartboard.radius;
+                avx += dartboard.bounding_box.x;
+                avy += dartboard.bounding_box.y;
+                avwidth += dartboard.bounding_box.width;
+                avheight += dartboard.bounding_box.height;
 
                 largest = dartboard;
                 dartboards_clone.erase(dartboards_clone.begin() + index);
@@ -413,27 +416,36 @@ void Detector::deduplicate_hits() {
             }
 
             //if dis < largest radius, largest larger, av  remove
-            if (distance <= largest.radius) {
+            if (contains(largest.bounding_box, dartboard.bounding_box)) {
                 sum_duplicates++;
-                avx += largest.center.x;
-                avy += largest.center.y;
-                avradius += largest.radius;
+                avx += dartboard.bounding_box.x;
+                avy += dartboard.bounding_box.y;
+                avwidth += dartboard.bounding_box.width;
+                avheight += dartboard.bounding_box.height;
 
                 dartboards_clone.erase(dartboards_clone.begin() + index);
                 continue;
             }
         }
 
-        dartboard.radius = avradius / sum_duplicates;
-        dartboard.center.x = avx / sum_duplicates;
-        dartboard.center.y = avy / sum_duplicates;
+        dartboard.bounding_box.x = avx / sum_duplicates;
+        dartboard.bounding_box.y = avy / sum_duplicates;
+        dartboard.bounding_box.width = avwidth / sum_duplicates;
+        dartboard.bounding_box.height = avheight / sum_duplicates;
         deduplicated_hits.push_back(dartboard);
     }
 
     dartboards = deduplicated_hits;
 
-
     return;
+}
+
+bool Detector::contains(Rect outer, Rect inner) {
+    if (outer.x <= inner.x && outer.y <= inner.y && (outer.x + outer.width) >= (inner.x + inner.width) && (outer.y + outer.height) >= (inner.y + inner.height)) {
+        return true;
+    }
+
+    return false;
 }
 
 int Detector::read_image (char* path) {
@@ -466,7 +478,12 @@ void Detector::write_image_mag(String path) {
 
 void Detector::convert_grey() {
     cvtColor(image, grey, CV_BGR2GRAY);
-    //equalizeHist(grey, grey);
+
+    return;
+}
+
+void Detector::equalize_hist() {
+    equalizeHist(grey, grey);
 
     return;
 }
@@ -480,8 +497,7 @@ void Detector::write_overlay_image(String path) {
 void Detector::write_detections_image(String path) {
     vector<DartBoard>::iterator dartboard;
     for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
-        circle(detections_image, dartboard->center, 3, Scalar(0,0,255), -1, 8, 0 );
-        circle(detections_image, dartboard->center, dartboard->radius, Scalar(0,0,255), 3, 8, 0 );
+	    rectangle(detections_image, Point(dartboard->bounding_box.x, dartboard->bounding_box.y), Point(dartboard->bounding_box.x + dartboard->bounding_box.width, dartboard->bounding_box.y + dartboard->bounding_box.height), Scalar( 255, 0, 0 ), 2);
     }
 
     imwrite(path, detections_image);
@@ -506,8 +522,9 @@ int main( int argc, char** argv ) {
     detector.convert_grey();
 
     detector.sobel();
-    detector.houghTransformLine();
     detector.houghTransformCircle();
+    detector.houghTransformLine();
+    detector.equalize_hist();
     detector.violaJones();
 
     detector.combineDectections();
