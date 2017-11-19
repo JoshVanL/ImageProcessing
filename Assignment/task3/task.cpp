@@ -9,6 +9,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <string>
 #include <math.h>
+#include <cmath>
 #include <vector>
 
 using namespace cv;
@@ -20,21 +21,23 @@ using namespace std;
 CascadeClassifier cascade;
 
 struct DartBoard {
-    Point center;
+    Point2f center;
     int radius;
 };
 
 struct CircleDetection {
-    Point center;
+    Point2f center;
     int radius;
 };
 
 class Detector {
-    Mat mag, grey;
-    vector<Point> line_hits;
-    vector<CircleDetection> circle_hits;
-    vector<Rect> viola_hits;
-    vector<DartBoard> dartboards;
+    private:
+        Mat mag, grey;
+        vector<Point2f> line_hits;
+        vector<CircleDetection> circle_hits;
+        vector<Rect> viola_hits;
+        vector<DartBoard> dartboards;
+        void deduplicate_hits();
     public:
         Mat image, overlay_image, detections_image;
         int read_image (char*);
@@ -216,7 +219,7 @@ void Detector::houghTransformLine() {
     for( size_t i = 0; i < lines.size(); i++ ) {
         for( size_t j = i+1; j < lines.size(); j++ ) {
             float rho = lines[i][0], theta = lines[i][1];
-            Point o1, p1;
+            Point2f o1, p1;
             double a = cos(theta), b = sin(theta);
             double x0 = a*rho, y0 = b*rho;
 
@@ -227,7 +230,7 @@ void Detector::houghTransformLine() {
 
             rho = lines[j][0];
             theta = lines[j][1];
-            Point o2, p2;
+            Point2f o2, p2;
             a = cos(theta), b = sin(theta);
             x0 = a*rho, y0 = b*rho;
             o2.x = cvRound(x0 + 1000*(-b));
@@ -252,7 +255,7 @@ void Detector::houghTransformLine() {
         for( int j = 0; j < mag.cols; j++ ) {
             // TODO: maybe change this to == 8 or some other
             if (crosses[i][j] > (sum / (5 * lines.size()))) {
-                Point center;
+                Point2f center;
                 center.x = i;
                 center.y = j;
                 circle( overlay_image, center, 7, Scalar(30,255,30), -1, 8, 0 );
@@ -283,7 +286,7 @@ void Detector::houghTransformCircle() {
     HoughCircles(blur_image, circles, CV_HOUGH_GRADIENT, 1, overlay_image.rows/16, 100, 35, 10, 120);
 
     for( size_t i = 0; i < circles.size(); i++ ) {
-        Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+        Point2f center(cvRound(circles[i][0]), cvRound(circles[i][1]));
         int radius = cvRound(circles[i][2]);
         circle( overlay_image, center, 3, Scalar(0,0,255), -1, 8, 0 );
         circle( overlay_image, center, radius, Scalar(0,0,255), 3, 8, 0 );
@@ -299,7 +302,7 @@ void Detector::violaJones() {
     cascade.detectMultiScale(grey, viola_hits, 1.1, 1, 0|CV_HAAR_SCALE_IMAGE, Size(50, 50), Size(500,500) );
 
     for( int i = 0; i < viola_hits.size(); i++ ) {
-        rectangle(overlay_image, Point(viola_hits[i].x, viola_hits[i].y), Point(viola_hits[i].x + viola_hits[i].width, viola_hits[i].y + viola_hits[i].height), Scalar( 255, 0, 0 ), 2);
+        rectangle(overlay_image, Point2f(viola_hits[i].x, viola_hits[i].y), Point2f(viola_hits[i].x + viola_hits[i].width, viola_hits[i].y + viola_hits[i].height), Scalar( 255, 0, 0 ), 2);
     }
 
     return;
@@ -307,11 +310,13 @@ void Detector::violaJones() {
 
 void Detector::combineDectections() {
     vector<Rect>::iterator viola;
+    vector<Point2f>::iterator line_hit;
+    vector<CircleDetection>::iterator circle_hit;
+
     for (viola = viola_hits.begin(); viola!= viola_hits.end(); ++viola) {
-        vector<Point> line_score;
+        vector<Point2f> line_score;
         vector<CircleDetection> circle_score;
 
-        vector<Point>::iterator line_hit;
         for (line_hit = line_hits.begin(); line_hit != line_hits.end(); ++line_hit) {
 
             if (line_hit->x >= viola->x && line_hit->y >= viola->y && line_hit->x <= (viola->x + viola->width) && line_hit->y <= (viola->y + viola->height)) {
@@ -320,7 +325,6 @@ void Detector::combineDectections() {
 
         }
 
-        vector<CircleDetection>::iterator circle_hit;
         for (circle_hit = circle_hits.begin(); circle_hit != circle_hits.end(); ++circle_hit) {
 
             if (circle_hit->center.x >= viola->x && circle_hit->center.y >= viola->y && circle_hit->center.x <= (viola->x + viola->width) && circle_hit->center.y <= (viola->y + viola->height)) {
@@ -351,14 +355,86 @@ void Detector::combineDectections() {
         radius = (viola->width + viola->height + radius) / (2 + circle_score.size());
 
         DartBoard dartboard;
-        dartboard.center = {int(avx), int(avy)};
+        dartboard.center = {avx, avy};
         dartboard.radius = radius;
         dartboards.push_back(dartboard);
     }
 
+    deduplicate_hits();
+
     return;
 }
 
+void Detector::deduplicate_hits() {
+    //Deep copy dartboards
+    //Loop till clone is empty
+        //Loop through clone, find largest, remove.
+        //Loop through clone, find all that are smaller, remove and average them -> add to new set
+
+    //struct DartBoard {
+    //    Point center;
+    //    int radius;
+    //};
+
+    vector<DartBoard>dartboards_clone = dartboards;
+    vector<DartBoard>deduplicated_hits;
+    DartBoard dartboard;
+    DartBoard largest;
+
+    while (dartboards_clone.size() > 0) {
+        //int index = 0;
+        float distance;
+        float avx, avy, avradius;
+        int sum_duplicates = 1;
+
+        largest = dartboards_clone.back();
+        avx = largest.center.x;
+        avy = largest.center.y;
+        avradius = largest.radius;
+        dartboards_clone.erase(dartboards_clone.end() -1);
+
+        //for (dartboard = dartboards_clone.begin(); dartboard != dartboards_clone.end(); ++dartboard) {
+        for(unsigned index = dartboards_clone.size(); index-- > 0;) {
+
+            dartboard = dartboards_clone.at(index);
+
+            distance = sqrt((pow((dartboard.center.x - largest.center.x), 2) + pow((dartboard.center.y - largest.center.y), 2)));
+
+            //if dis < dartboard radius, dartboard larger, av, remove
+            if (distance < dartboard.radius) {
+                sum_duplicates++;
+                avx += dartboard.center.x;
+                avy += dartboard.center.y;
+                avradius += dartboard.radius;
+
+                largest = dartboard;
+                dartboards_clone.erase(dartboards_clone.begin() + index);
+                continue;
+            }
+
+            //if dis < largest radius, largest larger, av  remove
+            if (distance <= largest.radius) {
+                sum_duplicates++;
+                avx += largest.center.x;
+                avy += largest.center.y;
+                avradius += largest.radius;
+
+                dartboards_clone.erase(dartboards_clone.begin() + index);
+                continue;
+            }
+        }
+
+        dartboard.radius = avradius / sum_duplicates;
+        dartboard.center.x = avx / sum_duplicates;
+        dartboard.center.y = avy / sum_duplicates;
+        deduplicated_hits.push_back(dartboard);
+    }
+
+    dartboards = deduplicated_hits;
+
+
+    return;
+}
 
 int Detector::read_image (char* path) {
     image = imread(path, CV_LOAD_IMAGE_COLOR);
