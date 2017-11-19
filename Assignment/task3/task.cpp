@@ -219,6 +219,7 @@ void Detector::houghTransformLine() {
             Point o1, p1;
             double a = cos(theta), b = sin(theta);
             double x0 = a*rho, y0 = b*rho;
+
             o1.x = cvRound(x0 + 1000*(-b));
             o1.y = cvRound(y0 + 1000*(a));
             p1.x = cvRound(x0 - 1000*(-b));
@@ -307,32 +308,47 @@ void Detector::violaJones() {
 void Detector::combineDectections() {
     vector<Rect>::iterator viola;
     for (viola = viola_hits.begin(); viola!= viola_hits.end(); ++viola) {
-        vector<Point> hits;
+        vector<Point> line_score;
+        vector<CircleDetection> circle_score;
 
         vector<Point>::iterator line_hit;
         for (line_hit = line_hits.begin(); line_hit != line_hits.end(); ++line_hit) {
 
             if (line_hit->x >= viola->x && line_hit->y >= viola->y && line_hit->x <= (viola->x + viola->width) && line_hit->y <= (viola->y + viola->height)) {
-                hits.push_back(*line_hit);
+                line_score.push_back(*line_hit);
             }
 
         }
 
-        if(hits.empty()) {
+        vector<CircleDetection>::iterator circle_hit;
+        for (circle_hit = circle_hits.begin(); circle_hit != circle_hits.end(); ++circle_hit) {
+
+            if (circle_hit->center.x >= viola->x && circle_hit->center.y >= viola->y && circle_hit->center.x <= (viola->x + viola->width) && circle_hit->center.y <= (viola->y + viola->height)) {
+                circle_score.push_back(*circle_hit);
+            }
+
+        }
+
+        if(line_score.empty() && circle_score.empty()) {
             continue;
         }
 
         float avx, avy, radius;
-        avx = 0;
-        avy = 0;
-        vector<Point>::iterator point;
-        for (point = hits.begin(); point != hits.end(); ++point) {
-            avx += point->x;
-            avy += point->y;
+        avx = avy = radius = 0;
+
+        for (line_hit = line_score.begin(); line_hit != line_score.end(); ++line_hit) {
+            avx += line_hit->x;
+            avy += line_hit->y;
         }
-        avx = avx / hits.size();
-        avy = avy / hits.size();
-        radius = (viola->width + viola->height) / 2;
+        for (circle_hit = circle_score.begin(); circle_hit != circle_score.end(); ++circle_hit) {
+            avx += circle_hit->center.x;
+            avy += circle_hit->center.y;
+            radius += circle_hit->radius;
+        }
+
+        avx = avx / (line_score.size() + circle_score.size());
+        avy = avy / (line_score.size() + circle_score.size());
+        radius = (viola->width + viola->height + radius) / (2 + circle_score.size());
 
         DartBoard dartboard;
         dartboard.center = {int(avx), int(avy)};
