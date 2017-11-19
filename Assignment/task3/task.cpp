@@ -20,10 +20,6 @@ using namespace std;
 /** Global variables */
 CascadeClassifier cascade;
 
-//struct DartBoard {
-//    Point2f center;
-//    int radius;
-//};
 struct DartBoard {
     Rect bounding_box;
 };
@@ -41,7 +37,9 @@ class Detector {
         vector<Rect> viola_hits;
         vector<DartBoard> dartboards;
         void deduplicate_hits();
-        bool contains(Rect, Rect);
+        bool rectOverlap(Rect, Rect);
+        bool valueInRange(float, float, float);
+
     public:
         Mat image, overlay_image, detections_image;
         int read_image (char*);
@@ -377,52 +375,39 @@ void Detector::combineDectections() {
 void Detector::deduplicate_hits() {
     //Deep copy dartboards
     //Loop till clone is empty
-        //Loop through clone, find largest, remove.
-        //Loop through clone, find all that are smaller, remove and average them -> add to new set
+        //Loop through clone, get next box
+        //Loop through clone, find all that are overlapping, remove and average them -> add to new set
     //Use new deduplicated set
 
     vector<DartBoard>dartboards_clone = dartboards;
     vector<DartBoard>deduplicated_hits;
     DartBoard dartboard;
-    DartBoard largest;
+    DartBoard current;
 
     while (dartboards_clone.size() > 0) {
         float distance;
         float avx, avy, avwidth, avheight;
         int sum_duplicates = 1;
 
-        largest = dartboards_clone.back();
-        avx = largest.bounding_box.x;
-        avy = largest.bounding_box.y;
-        avwidth = largest.bounding_box.width;
-        avheight = largest.bounding_box.height;
+        current = dartboards_clone.back();
+        avx = current.bounding_box.x;
+        avy = current.bounding_box.y;
+        avwidth = current.bounding_box.width;
+        avheight = current.bounding_box.height;
         dartboards_clone.erase(dartboards_clone.end() -1);
 
         for(unsigned index = dartboards_clone.size(); index-- > 0;) {
 
             dartboard = dartboards_clone.at(index);
 
-            //if dis < dartboard radius, dartboard larger, av, remove
-            if (contains(dartboard.bounding_box, largest.bounding_box)) {
+            if (rectOverlap(current.bounding_box, dartboard.bounding_box)) {
                 sum_duplicates++;
                 avx += dartboard.bounding_box.x;
                 avy += dartboard.bounding_box.y;
                 avwidth += dartboard.bounding_box.width;
                 avheight += dartboard.bounding_box.height;
 
-                largest = dartboard;
-                dartboards_clone.erase(dartboards_clone.begin() + index);
-                continue;
-            }
-
-            //if dis < largest radius, largest larger, av  remove
-            if (contains(largest.bounding_box, dartboard.bounding_box)) {
-                sum_duplicates++;
-                avx += dartboard.bounding_box.x;
-                avy += dartboard.bounding_box.y;
-                avwidth += dartboard.bounding_box.width;
-                avheight += dartboard.bounding_box.height;
-
+                //current = dartboard;
                 dartboards_clone.erase(dartboards_clone.begin() + index);
                 continue;
             }
@@ -440,12 +425,16 @@ void Detector::deduplicate_hits() {
     return;
 }
 
-bool Detector::contains(Rect outer, Rect inner) {
-    if (outer.x <= inner.x && outer.y <= inner.y && (outer.x + outer.width) >= (inner.x + inner.width) && (outer.y + outer.height) >= (inner.y + inner.height)) {
-        return true;
-    }
+bool Detector::valueInRange(float value, float min, float max) {
+    return (value >= min) && (value <= max);
+}
 
-    return false;
+bool Detector::rectOverlap(Rect A, Rect B) {
+    bool xOverlap = valueInRange(A.x, B.x, B.x + B.width) || valueInRange(B.x, A.x, A.x + A.width);
+
+    bool yOverlap = valueInRange(A.y, B.y, B.y + B.height) || valueInRange(B.y, A.y, A.y + A.height);
+
+    return xOverlap && yOverlap;
 }
 
 int Detector::read_image (char* path) {
