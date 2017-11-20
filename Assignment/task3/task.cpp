@@ -511,11 +511,12 @@ int main( int argc, char** argv ) {
     }
 
     detector.convert_grey();
-
+    //detector.equalize_hist();
     detector.sobel();
     detector.houghTransformCircle();
+
     detector.houghTransformLine();
-    detector.equalize_hist();
+
     detector.violaJones();
 
     detector.combineDectections();
