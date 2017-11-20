@@ -205,7 +205,7 @@ void Detector::houghTransformLine() {
     //theta: The resolution of the parameter \theta in radians. We use 1 degree (CV_PI/180)
     //threshold: The minimum number of intersections to “detect” a line
     //srn and stn: Default parameters to zero. Check OpenCV reference for more info.
-    HoughLines(workImage, lines, 1, CV_PI/180, 80, 0, 0 );
+    HoughLines(workImage, lines, 1, CV_PI/180, 100, 0, 0 );
 
     const int x = mag.rows;
     const int y = mag.cols;
@@ -221,46 +221,48 @@ void Detector::houghTransformLine() {
 
     for( size_t i = 0; i < lines.size(); i++ ) {
         for( size_t j = i+1; j < lines.size(); j++ ) {
-            float rho = lines[i][0], theta = lines[i][1];
-            Point2f o1, p1;
-            double a = cos(theta), b = sin(theta);
-            double x0 = a*rho, y0 = b*rho;
+            float rho1 = lines[i][0], theta1 = lines[i][1];
+            Point pt11, pt12;
+            double a1 = cos(theta1), b1 = sin(theta1);
+            double x10 = a1*rho1, y10 = b1*rho1;
 
-            o1.x = cvRound(x0 + 1000*(-b));
-            o1.y = cvRound(y0 + 1000*(a));
-            p1.x = cvRound(x0 - 1000*(-b));
-            p1.y = cvRound(y0 - 1000*(a));
+            float rho2 = lines[j][0], theta2 = lines[j][1];
+            Point pt21, pt22;
+            double a2 = cos(theta2), b2 = sin(theta2);
+            double x20 = a2*rho2, y20 = b2*rho2;
 
-            rho = lines[j][0];
-            theta = lines[j][1];
-            Point2f o2, p2;
-            a = cos(theta), b = sin(theta);
-            x0 = a*rho, y0 = b*rho;
-            o2.x = cvRound(x0 + 1000*(-b));
-            o2.y = cvRound(y0 + 1000*(a));
-            p2.x = cvRound(x0 - 1000*(-b));
-            p2.y = cvRound(y0 - 1000*(a));
+            pt11.x = cvRound(x10 + 1000*(-b1));
+            pt11.y = cvRound(y10 + 1000*(a1));
+            pt12.x = cvRound(x10 - 1000*(-b1));
+            pt12.y = cvRound(y10 - 1000*(a1));
+
+            pt21.x = cvRound(x20 + 1000*(-b2));
+            pt21.y = cvRound(y20 + 1000*(a2));
+            pt22.x = cvRound(x20 - 1000*(-b2));
+            pt22.y = cvRound(y20 - 1000*(a2));
 
             Point2f r;
 
-            if (intersection(o1, p1, o2, p2, r)) {
-                if (r.x < mag.rows && r.y < mag.cols && r.x > 0 && r.y > 0) {
-                    int x = r.x;
-                    int y = r.y;
+            if (intersection(pt11, pt12, pt21, pt22, r)) {
+                if (r.x < workImage.cols && r.y < workImage.rows && r.x > 0 && r.y > 0) {
+                    int x = r.y;
+                    int y = r.x;
                     crosses[x][y] += 1;
                     sum ++;
                 }
             }
-        }
-    }
 
-    for ( int i = 0; i < mag.rows; i++ ) {
-        for( int j = 0; j < mag.cols; j++ ) {
+        }
+
+    }
+    for ( int i = 0; i < workImage.rows; i++ ) {
+        for( int j = 0; j < workImage.cols; j++ ) {
             // TODO: maybe change this to == 8 or some other
-            if (crosses[i][j] > (sum / (5 * lines.size()))) {
+            if (crosses[i][j] > (sum / (4 * lines.size()))) {
+            //if (crosses[i][j] > 0) {
                 Point2f center;
-                center.x = i;
-                center.y = j;
+                center.x = j;
+                center.y = i;
                 circle( overlay_image, center, 7, Scalar(30,255,30), -1, 8, 0 );
                 line_hits.push_back(center);
             }
@@ -486,7 +488,7 @@ void Detector::write_overlay_image(String path) {
 void Detector::write_detections_image(String path) {
     vector<DartBoard>::iterator dartboard;
     for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
-	    rectangle(detections_image, Point(dartboard->bounding_box.x, dartboard->bounding_box.y), Point(dartboard->bounding_box.x + dartboard->bounding_box.width, dartboard->bounding_box.y + dartboard->bounding_box.height), Scalar( 255, 0, 0 ), 2);
+	    rectangle(detections_image, Point(dartboard->bounding_box.x, dartboard->bounding_box.y), Point(dartboard->bounding_box.x + dartboard->bounding_box.width, dartboard->bounding_box.y + dartboard->bounding_box.height), Scalar( 0, 250, 0 ), 4);
     }
 
     imwrite(path, detections_image);
