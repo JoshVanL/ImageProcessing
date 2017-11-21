@@ -19,6 +19,7 @@ using namespace std;
 
 /** Global variables */
 CascadeClassifier cascade;
+RNG rng(12345);
 
 struct DartBoard {
     Rect bounding_box;
@@ -35,6 +36,7 @@ class Detector {
         vector<Point2f> line_hits;
         vector<CircleDetection> circle_hits;
         vector<Rect> viola_hits;
+        vector<RotatedRect> ellipse_hits;
         vector<DartBoard> dartboards;
         void deduplicate_hits();
         bool rectOverlap(Rect, Rect);
@@ -50,6 +52,7 @@ class Detector {
         void houghTransformLine();
         void houghTransformCircle();
         void violaJones();
+        void ellipses();
         void combineDectections();
         void write_image_mag(String);
         void write_overlay_image(String);
@@ -303,6 +306,47 @@ void Detector::houghTransformCircle() {
     return;
 }
 
+void Detector::ellipses() {
+    Mat threshold_output;
+    vector<vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+
+    /// Detect edges using Threshold
+    threshold( mag, threshold_output, 151, 255, THRESH_BINARY );
+    /// Find contours
+    findContours( threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+    /// Find the rotated rectangles and ellipses for each contour
+    vector<RotatedRect> minRect( contours.size() );
+    vector<RotatedRect> ellipses( contours.size() );
+
+    for( int i = 0; i < contours.size(); i++ ) {
+        if( contours[i].size() > 100 ) {
+            minRect[i] = minAreaRect( Mat(contours[i]) );
+            ellipses[i] = fitEllipse( Mat(contours[i]) );
+        }
+    }
+
+    /// Draw contours + rotated rects + ellipses
+    Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
+    for( int i = 0; i< contours.size(); i++ ) {
+        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+        // ellipse
+        ellipse( overlay_image, ellipses[i], Scalar(226, 43 ,138 ), 2, 8 );
+
+        // rotated rectangle
+        //Point2f rect_points[4];
+        //minRect[i].points( rect_points );
+        //for( int j = 0; j < 4; j++ ) {
+        //    line( overlay_image, rect_points[j], rect_points[(j+1)%4], Scalar(226,43,138), 2, 8 );
+        //}
+    }
+
+    ellipse_hits = ellipses;
+
+    return;
+}
+
 void Detector::violaJones() {
     cascade.detectMultiScale(grey, viola_hits, 1.1, 1, 0|CV_HAAR_SCALE_IMAGE, Size(50, 50), Size(500,500) );
 
@@ -317,28 +361,33 @@ void Detector::combineDectections() {
     vector<Rect>::iterator viola;
     vector<Point2f>::iterator line_hit;
     vector<CircleDetection>::iterator circle_hit;
+    vector<RotatedRect>::iterator ellipse_hit;
 
     for (viola = viola_hits.begin(); viola!= viola_hits.end(); ++viola) {
         vector<Point2f> line_score;
         vector<CircleDetection> circle_score;
+        vector<RotatedRect> ellipse_score;
 
         for (line_hit = line_hits.begin(); line_hit != line_hits.end(); ++line_hit) {
-
             if (line_hit->x >= viola->x && line_hit->y >= viola->y && line_hit->x <= (viola->x + viola->width) && line_hit->y <= (viola->y + viola->height)) {
                 line_score.push_back(*line_hit);
             }
-
         }
 
         for (circle_hit = circle_hits.begin(); circle_hit != circle_hits.end(); ++circle_hit) {
-
             if (circle_hit->center.x >= viola->x && circle_hit->center.y >= viola->y && circle_hit->center.x <= (viola->x + viola->width) && circle_hit->center.y <= (viola->y + viola->height)) {
                 circle_score.push_back(*circle_hit);
             }
-
         }
 
-        if(line_score.empty() && circle_score.empty()) {
+        for (ellipse_hit = ellipse_hits.begin(); ellipse_hit != ellipse_hits.end(); ++ellipse_hit) {
+            if (ellipse_hit->center.x >= viola->x && ellipse_hit->center.y >= viola->y && ellipse_hit->center.x <= (viola->x + viola->width) && ellipse_hit->center.y <= (viola->y + viola->height)) {
+                ellipse_score.push_back(*ellipse_hit);
+            }
+        }
+
+
+        if(line_score.empty() && circle_score.empty() && ellipse_score.empty()) {
             continue;
         }
 
@@ -355,11 +404,17 @@ void Detector::combineDectections() {
             avwidth += (circle_hit->radius * 2);
             avheight += (circle_hit->radius * 2);
         }
+        for (ellipse_hit = ellipse_score.begin(); ellipse_hit != ellipse_score.end(); ++ellipse_hit) {
+            avx += ellipse_hit->center.x;
+            avy += ellipse_hit->center.y;
+            avwidth += (ellipse_hit->size.width / 2);
+            avheight += (ellipse_hit->size.height / 2);
+        }
 
-        avx = avx / (line_score.size() + circle_score.size());
-        avy = avy / (line_score.size() + circle_score.size());
-        avwidth = (viola->width + avwidth) / (circle_score.size() + 1);
-        avheight = (viola->height + avheight) / (circle_score.size() + 1);
+        avx = avx / (line_score.size() + circle_score.size() + ellipse_score.size());
+        avy = avy / (line_score.size() + circle_score.size() + ellipse_score.size());
+        avwidth = (viola->width + avwidth) / (circle_score.size() + ellipse_score.size() + 1);
+        avheight = (viola->height + avheight) / (circle_score.size() + ellipse_score.size() + 1);
 
         DartBoard dartboard;
         dartboard.bounding_box.x = avx - (avwidth / 2);
@@ -519,7 +574,10 @@ int main( int argc, char** argv ) {
 
     detector.violaJones();
 
+    //detector.ellipses();
+
     detector.combineDectections();
+
 
     //detector.write_overlay_image(argv[2]);
     detector.write_detections_image(argv[2]);

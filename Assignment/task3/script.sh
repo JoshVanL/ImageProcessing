@@ -1,6 +1,6 @@
 #!/bin/bash
 
-iter=13
+iter=15
 
 # Basic while loop
 counter=0
