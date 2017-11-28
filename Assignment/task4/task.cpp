@@ -20,7 +20,8 @@ using namespace std;
 
 /** Global variables */
 CascadeClassifier cascade;
-RNG rng(12345);
+String cascadePath = "cascade.xml";
+String outputPath = "detected.jpg";
 
 struct DartBoard {
     Rect bounding_box;
@@ -54,8 +55,8 @@ class Detector {
 
     public:
         Mat image, overlay_image, detections_image;
-        int read_image (char*);
-        int load_cascade (char*);
+        int read_image (String);
+        int load_cascade (String);
         void convert_grey();
         Mat convolve(Mat);
         void sobel();
@@ -377,7 +378,6 @@ void Detector::ellipses() {
     /// Draw contours + rotated rects + ellipses
     Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
     for( int i = 0; i< contours.size(); i++ ) {
-        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
         // ellipse
         ellipse( this->overlay_image, ellipses[i], Scalar(226, 43 ,138 ), 6, 8 );
 
@@ -687,7 +687,7 @@ bool Detector::rectOverlap(Rect A, Rect B) {
     return xOverlap && yOverlap;
 }
 
-int Detector::read_image (char* path) {
+int Detector::read_image (String path) {
     image = imread(path, CV_LOAD_IMAGE_COLOR);
     if(!image.data){
         printf("No image data \n");
@@ -700,7 +700,7 @@ int Detector::read_image (char* path) {
     return 0;
 }
 
-int Detector::load_cascade(char* path) {
+int Detector::load_cascade(String path) {
     if(!cascade.load(path)) {
         printf("Could no load cascade xml\n");
         return -1;
@@ -744,17 +744,29 @@ void Detector::write_detections_image(String path) {
     return;
 }
 
-int main( int argc, char** argv ) {
+void parse_arguments(int argc, char *argv[]) {
+    for (int i = 1; i < argc; i++) {
+        if (!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) {
+            outputPath = argv[i+1];
+        } else if (!strcmp(argv[i], "--cascade") || !strcmp(argv[i], "-c")) {
+            cascadePath = argv[i+1];
+        }
+    }
+}
+
+int main( int argc, char* argv[] ) {
     Detector detector;
 
-    if (argc != 4) {
-        printf("enter [input image] [output image] [cascade file]\n");
+    if (argc < 2) {
+        printf("enter [input image]");
         return -1;
     }
+    parse_arguments(argc, argv);
+
     if (detector.read_image(argv[1])) {
         return -1;
     }
-    if (detector.load_cascade(argv[3])) {
+    if (detector.load_cascade(cascadePath)) {
         return -1;
     }
 
@@ -770,13 +782,15 @@ int main( int argc, char** argv ) {
 
     detector.triangles();
 
-    //detector.ellipses();
+    detector.ellipses();
 
     detector.combineDectections();
 
 
     //detector.write_overlay_image(argv[2]);
-    detector.write_detections_image(argv[2]);
+    detector.write_detections_image(outputPath);
 
     return 0;
 }
+
+

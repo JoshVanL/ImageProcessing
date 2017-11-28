@@ -7,7 +7,7 @@ counter=0
 while [ $counter -le $iter ]
 do
     printf "$counter: "
-    ./out imgs/dart$counter.jpg imgs/out$counter.jpg cascade.xml
+    ./out imgs/dart$counter.jpg -o imgs/out$counter.jpg -c cascade.xml
     ((counter++))
     printf "done.\n"
 done
