@@ -49,6 +49,7 @@ class Detector {
         bool valueInRange(float, float, float);
         float angle(Point2f, Point2f, Point2f);
         vector<double> otsuMethod(Mat);
+        void drawLinesAndIntersections(vector<Vec2f>, int, int, int**);
         //void setLabel(Mat, const String, vector<Point>);
 
     public:
@@ -225,8 +226,13 @@ void Detector::houghTransformLine() {
     const int x = this->mag.rows;
     const int y = this->mag.cols;
 
-    int crosses[x][y];
+    //int crosses[x][y];
+    int **crosses;
     float sum = 0;
+
+    crosses = new int *[x];
+    for(int i = 0; i <x; i++)
+        crosses[i] = new int[y];
 
     for ( int i = 0; i < this->mag.rows; i++ ) {
         for( int j = 0; j < this->mag.cols; j++ ) {
@@ -266,10 +272,9 @@ void Detector::houghTransformLine() {
                     sum ++;
                 }
             }
-
         }
-
     }
+
     for ( int i = 0; i < workImage.rows; i++ ) {
         for( int j = 0; j < workImage.cols; j++ ) {
             // TODO: maybe change this to == 8 or some other
@@ -284,7 +289,37 @@ void Detector::houghTransformLine() {
         }
     }
 
+    //drawLinesAndIntersections(lines, x, y, crosses);
+
     return;
+}
+
+void Detector::drawLinesAndIntersections(vector<Vec2f> lines, int x, int y, int **crosses) {
+    for( size_t i = 0; i < lines.size(); i++ ) {
+        float rho = lines[i][0], theta = lines[i][1];
+        Point pt1, pt2;
+        double a = cos(theta), b = sin(theta);
+        double x0 = a*rho, y0 = b*rho;
+
+        pt1.x = cvRound(x0 + 1000*(-b));
+        pt1.y = cvRound(y0 + 1000*(a));
+        pt2.x = cvRound(x0 - 1000*(-b));
+        pt2.y = cvRound(y0 - 1000*(a));
+
+        line( this->overlay_image, pt1, pt2, Scalar(0,0,255), 1, 8 );
+    }
+
+    for ( int i = 0; i < x; i++ ) {
+        for( int j = 0; j < y; j++ ) {
+            if (crosses[i][j] > 0) {
+                Point2f center;
+                center.x = j;
+                center.y = i;
+                circle( this->overlay_image, center, 1, Scalar(0,255, 0), -1, 8, 0 );
+            }
+        }
+    }
+
 }
 
 
@@ -344,7 +379,7 @@ void Detector::ellipses() {
     for( int i = 0; i< contours.size(); i++ ) {
         Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
         // ellipse
-        ellipse( this->overlay_image, ellipses[i], Scalar(226, 43 ,138 ), 10, 8 );
+        ellipse( this->overlay_image, ellipses[i], Scalar(226, 43 ,138 ), 6, 8 );
 
         // rotated rectangle
         //Point2f rect_points[4];
@@ -431,7 +466,7 @@ void Detector::triangles() {
             }
             this->triangle_hits.push_back(triangle);
 
-            drawContours(this->overlay_image, contours, i, Scalar(255, 255, 0), CV_FILLED); // fill GREEN
+            drawContours(this->overlay_image, contours, i, Scalar(80, 80 ,255 ), CV_FILLED); // fill GREEN
         }
     }
 
@@ -564,13 +599,13 @@ void Detector::combineDectections() {
             avwidth += (ellipse_hit->size.width / 2);
             avheight += (ellipse_hit->size.height / 2);
         }
-        for (triangle_hit = this->triangle_hits.begin(); triangle_hit != this->triangle_hits.end(); ++triangle_hit) {
+        for (triangle_hit = triangle_score.begin(); triangle_hit != triangle_score.end(); ++triangle_hit) {
             avx += ((triangle_hit->points[0].x + triangle_hit->points[1].x + triangle_hit->points[2].x) / 3);
             avy += ((triangle_hit->points[0].y + triangle_hit->points[1].y + triangle_hit->points[2].y) / 3);
         }
 
-        avx = avx / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_hits.size());
-        avy = avy / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_hits.size());
+        avx = avx / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_score.size());
+        avy = avy / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_score.size());
         avwidth = (viola->width + avwidth) / (circle_score.size() + ellipse_score.size() + 1);
         avheight = (viola->height + avheight) / (circle_score.size() + ellipse_score.size() + 1);
 
@@ -740,8 +775,8 @@ int main( int argc, char** argv ) {
     detector.combineDectections();
 
 
-    detector.write_overlay_image(argv[2]);
-    //detector.write_detections_image(argv[2]);
+    //detector.write_overlay_image(argv[2]);
+    detector.write_detections_image(argv[2]);
 
     return 0;
 }
