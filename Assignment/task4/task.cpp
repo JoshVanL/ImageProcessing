@@ -12,6 +12,7 @@
 #include <math.h>
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 using namespace cv;
 using namespace std;
@@ -39,6 +40,7 @@ struct Triangle {
 class Detector {
     private:
         Mat mag, grey;
+        vector<Point> groundTruthBoxes;
         vector<Point2f> line_hits;
         vector<CircleDetection> circle_hits;
         vector<Rect> viola_hits;
@@ -70,7 +72,126 @@ class Detector {
         void equalize_hist();
         void triangles();
         Mat getHoughSpace(Mat);
+        Mat groundTruth(char *);
+        float calculateF1Score();
 };
+
+
+int catchInt(string s) {
+  char *p = new char[s.length()+1];
+  strcpy(p,s.c_str());
+  while (*p) {
+    if (isdigit(*p)) {
+      int val = strtol(p,&p,10);
+      return val;
+    }
+    else{
+      p++;
+    }
+  }
+  return 0;
+}
+
+std::vector<int> findXCentre(int n) {
+  std::vector<int> x;
+  switch (n) {
+    case 0: x.push_back(515); break;
+    case 1: x.push_back(290); break;
+    case 2: x.push_back(147); break;
+    case 3: x.push_back(356); break;
+    case 4: x.push_back(285); break;
+    case 5: x.push_back(482); break;
+    case 6: x.push_back(241); break;
+    case 7: x.push_back(321); break;
+    case 8: x.push_back(894); x.push_back(90); break;
+    case 9: x.push_back(318); break;
+    case 10: x.push_back(136); x.push_back(610); x.push_back(933);break;
+    case 11: x.push_back(205); break;
+    case 12: x.push_back(184); break;
+    case 13: x.push_back(335); break;
+    case 14: x.push_back(177); x.push_back(1048); break;
+    case 15: x.push_back(219); break;
+    default: return x;
+  }
+  return x;
+}
+
+std::vector<int> findYCentre(int n) {
+  std::vector<int> y;
+  switch (n) {
+    case 0: y.push_back(100); break;
+    case 1: y.push_back(225); break;
+    case 2: y.push_back(141); break;
+    case 3: y.push_back(183); break;
+    case 4: y.push_back(193); break;
+    case 5: y.push_back(193); break;
+    case 6: y.push_back(149); break;
+    case 7: y.push_back(241); break;
+    case 8: y.push_back(276); y.push_back(294); break;
+    case 9: y.push_back(163); break;
+    case 10: y.push_back(157); y.push_back(170); y.push_back(184);break;
+    case 11: y.push_back(142); break;
+    case 12: y.push_back(145); break;
+    case 13: y.push_back(187); break;
+    case 14: y.push_back(164); y.push_back(155); break;
+    case 15: y.push_back(121); break;
+    default: return y;
+  }
+  return y;
+}
+
+Mat Detector::groundTruth(char* in) {
+  Mat image = imread(in,1);
+  int num = catchInt(in);
+  std::vector<int> x ,y;
+  int w, h;
+  x = findXCentre(num);
+  y = findYCentre(num);
+  w = 100;
+  h = 100;
+
+  for (int i = 0; i < x.size(); i++) {
+    Point box;
+    box.x = x.at(i);
+    box.y = y.at(i);
+    //cv::rectangle(image, cvPoint(x.at(i)-w/2,y.at(i)-h/2) , cvPoint(x.at(i)+w/2,y.at(i)+h/2), CV_RGB(255,0,0) ,3);
+
+    groundTruthBoxes.push_back(box);
+  }
+
+  return image;
+}
+
+float Detector::calculateF1Score() {
+    vector<Point>::iterator groundTruth;
+    vector<DartBoard>::iterator dartboard;
+    // F1 = (2 * detected hit * TPR) / ((TPR * Det) + Actual Hits)
+
+    //F1 = 2 (precision * recall) / (precision + recall)
+    //Precision = how many selected items are relevant (Actual hits / detections size)
+    //Recall = how relevant items are selected  -- TPR
+    // TPR = (Actual Hits / groundTruth size)
+
+    float ActualHits = 0;
+    float precision, TPR;
+
+    for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
+        for (groundTruth = groundTruthBoxes.begin(); groundTruth != groundTruthBoxes.end(); ++groundTruth) {
+            if (abs(dartboard->bounding_box.x - groundTruth->x) < 100 && abs(dartboard->bounding_box.y - groundTruth->y) < 100) {
+                ActualHits++;
+                continue;
+            }
+        }
+    }
+
+    TPR = ActualHits / groundTruthBoxes.size();
+    precision = ActualHits / dartboards.size();
+
+    if (TPR == 0 && precision == 0 ) {
+        return 0;
+    }
+    return (TPR * precision * 2) / (TPR + precision);
+}
 
 Mat Detector::convolve (Mat kernel) {
     Mat output;
@@ -212,9 +333,10 @@ void Detector::houghTransformLine() {
     Mat workImage;
     vector<Vec2f> lines;
 
-    vector<double> thresholds = otsuMethod(mag);
+    //vector<double> thresholds = otsuMethod(mag);
+    //Canny(mag, workImage, thresholds[0], thresholds[1], 3);
 
-    Canny(mag, workImage, thresholds[0], thresholds[1], 3);
+    Canny(mag, workImage, 50, 200, 3);
 
     //dst: Output of the edge detector. It should be a grayscale image (although in fact it is a binary one)
     //lines: A vector that will store the parameters (r,\theta) of the detected lines
@@ -470,8 +592,8 @@ void Detector::triangles() {
     vector<Vec4i> hierarchy;
     Mat canny_output, blur_image, bw;
 
-    equalizeHist(this->grey, this->grey);
-    blur( this->grey, grey, Size( 3, 3 ) );
+    //equalizeHist(this->grey, this->grey);
+    //blur( this->grey, grey, Size( 3, 3 ) );
 
     vector<double> thresholds;
     thresholds = this->otsuMethod(this->grey);
@@ -795,25 +917,33 @@ int main( int argc, char* argv[] ) {
         return -1;
     }
 
+    detector.detections_image = detector.groundTruth(argv[1]);
+
     detector.convert_grey();
     //detector.equalize_hist();
     //detector.equalize_hist();
     detector.sobel();
-    //detector.houghTransformCircle();
+    detector.houghTransformCircle();
 
     detector.houghTransformLine();
 
-    //detector.violaJones();
+    detector.violaJones();
 
     //detector.triangles();
 
     //detector.ellipses();
 
-    //detector.combineDectections();
+    detector.combineDectections();
 
+    //detector.write_overlay_image(outputPath);
+    detector.write_detections_image(outputPath);
 
-    detector.write_overlay_image(outputPath);
-    //detector.write_detections_image(outputPath);
+    float F1score = detector.calculateF1Score();
+    std::ofstream out;
+
+    out.open("f1scores", std::ios::app);
+    String str = to_string(F1score);
+    out << str + "\n";
 
     return 0;
 }
