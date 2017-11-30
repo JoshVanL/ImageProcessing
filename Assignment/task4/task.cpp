@@ -51,7 +51,6 @@ class Detector {
         float angle(Point2f, Point2f, Point2f);
         vector<double> otsuMethod(Mat);
         void drawLinesAndIntersections(vector<Vec2f>, int, int, int**);
-        //void setLabel(Mat, const String, vector<Point>);
 
     public:
         Mat image, overlay_image, detections_image;
@@ -70,6 +69,7 @@ class Detector {
         void write_detections_image(String);
         void equalize_hist();
         void triangles();
+        Mat getHoughSpace(Mat);
 };
 
 Mat Detector::convolve (Mat kernel) {
@@ -222,7 +222,7 @@ void Detector::houghTransformLine() {
     //theta: The resolution of the parameter \theta in radians. We use 1 degree (CV_PI/180)
     //threshold: The minimum number of intersections to “detect” a line
     //srn and stn: Default parameters to zero. Check OpenCV reference for more info.
-    HoughLines(workImage, lines, 1, CV_PI/180, 100, 0, 0 );
+    HoughLines(workImage, lines, 1, CV_PI/180, 100);
 
     const int x = this->mag.rows;
     const int y = this->mag.cols;
@@ -243,6 +243,8 @@ void Detector::houghTransformLine() {
 
     for( size_t i = 0; i < lines.size(); i++ ) {
         for( size_t j = i+1; j < lines.size(); j++ ) {
+            // r = x*cos(theata) + y*sin(theta)
+
             float rho1 = lines[i][0], theta1 = lines[i][1];
             Point pt11, pt12;
             double a1 = cos(theta1), b1 = sin(theta1);
@@ -290,9 +292,45 @@ void Detector::houghTransformLine() {
         }
     }
 
-    //drawLinesAndIntersections(lines, x, y, crosses);
+    //Canny(mag, workImage, thresholds[0], thresholds[1], 3);
+    //Mat output = getHoughSpace(workImage);
+    //overlay_image = output;
+    drawLinesAndIntersections(lines, x, y, crosses);
 
     return;
+}
+
+Mat Detector::getHoughSpace(Mat input) {
+    Mat pim = input;
+    int mry = 360;
+    int ntx = 460;
+
+    mry = int(mry/2)*2;
+    Mat him(mry, ntx, CV_8UC1, Scalar(0));
+
+    float rmax = sqrt((input.rows * input.rows) + (input.cols * input.cols));
+    float dr = rmax / (mry/2);
+    float dth = PI / ntx;
+
+    for (int x = 0; x < input.rows; x++) {
+        for (int y = 0; y < input.cols; y++) {
+            if (input.at<uchar>(x, y) == 0) {
+                continue;
+            }
+
+            for (int tx = 0; tx < ntx; tx ++) {
+                float th = dth * tx;
+                float r = x*cos(th) + y*sin(th);
+                float ty = mry/2 + int(r/dr+0.5);
+
+                if (him.at<uchar>(ty, tx) < 255) {
+                    him.at<uchar>(ty, tx) += 1;
+                }
+            }
+        }
+    }
+
+    return him;
 }
 
 void Detector::drawLinesAndIntersections(vector<Vec2f> lines, int x, int y, int **crosses) {
@@ -392,20 +430,6 @@ void Detector::ellipses() {
     ellipse_hits = ellipses;
 
     return;
-}
-
-void setLabel(cv::Mat& im, const std::string label, std::vector<cv::Point>& contour) {
-	int fontface = cv::FONT_HERSHEY_SIMPLEX;
-	double scale = 0.4;
-	int thickness = 1;
-	int baseline = 0;
-
-	cv::Size text = cv::getTextSize(label, fontface, scale, thickness, &baseline);
-	cv::Rect r = cv::boundingRect(contour);
-
-	cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-	cv::rectangle(im, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255,255,255), CV_FILLED);
-	cv::putText(im, label, pt, fontface, scale, CV_RGB(0,0,0), thickness, 8);
 }
 
 
@@ -748,6 +772,7 @@ void parse_arguments(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) {
             outputPath = argv[i+1];
+
         } else if (!strcmp(argv[i], "--cascade") || !strcmp(argv[i], "-c")) {
             cascadePath = argv[i+1];
         }
@@ -774,23 +799,21 @@ int main( int argc, char* argv[] ) {
     //detector.equalize_hist();
     //detector.equalize_hist();
     detector.sobel();
-    detector.houghTransformCircle();
+    //detector.houghTransformCircle();
 
     detector.houghTransformLine();
 
-    detector.violaJones();
+    //detector.violaJones();
 
-    detector.triangles();
+    //detector.triangles();
 
-    detector.ellipses();
+    //detector.ellipses();
 
-    detector.combineDectections();
+    //detector.combineDectections();
 
 
-    //detector.write_overlay_image(argv[2]);
-    detector.write_detections_image(outputPath);
+    detector.write_overlay_image(outputPath);
+    //detector.write_detections_image(outputPath);
 
     return 0;
 }
-
-
