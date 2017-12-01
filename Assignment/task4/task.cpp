@@ -6,8 +6,12 @@
 #include "opencv2/opencv.hpp"
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
+#include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/flann/flann.hpp"
+#include <opencv2/nonfree/features2d.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
 #include <string>
 #include <math.h>
 #include <cmath>
@@ -23,6 +27,7 @@ using namespace std;
 CascadeClassifier cascade;
 String cascadePath = "cascade.xml";
 String outputPath = "detected.jpg";
+String posPath = "dart.jpg";
 
 struct DartBoard {
     Rect bounding_box;
@@ -42,6 +47,7 @@ class Detector {
         Mat mag, grey;
         vector<Point> groundTruthBoxes;
         vector<Point2f> line_hits;
+        vector<Point2f> surf_hits;
         vector<CircleDetection> circle_hits;
         vector<Rect> viola_hits;
         vector<RotatedRect> ellipse_hits;
@@ -53,10 +59,12 @@ class Detector {
         float angle(Point2f, Point2f, Point2f);
         vector<double> otsuMethod(Mat);
         void drawLinesAndIntersections(vector<Vec2f>, int, int, int**);
+        float windowScore(Mat);
 
     public:
-        Mat image, overlay_image, detections_image;
+        Mat image, overlay_image, detections_image, posImage;
         int read_image (String);
+        int read_pos_image(String);
         int load_cascade (String);
         void convert_grey();
         Mat convolve(Mat);
@@ -74,6 +82,7 @@ class Detector {
         Mat getHoughSpace(Mat);
         Mat groundTruth(char *);
         float calculateF1Score();
+        void surfDetector();
 };
 
 
@@ -106,7 +115,7 @@ std::vector<int> findXCentre(int n) {
     case 8: x.push_back(894); x.push_back(90); break;
     case 9: x.push_back(318); break;
     case 10: x.push_back(136); x.push_back(610); x.push_back(933);break;
-    case 11: x.push_back(205); break;
+    case 11: x.push_back(205); x.push_back(464); break;
     case 12: x.push_back(184); break;
     case 13: x.push_back(335); break;
     case 14: x.push_back(177); x.push_back(1048); break;
@@ -130,7 +139,7 @@ std::vector<int> findYCentre(int n) {
     case 8: y.push_back(276); y.push_back(294); break;
     case 9: y.push_back(163); break;
     case 10: y.push_back(157); y.push_back(170); y.push_back(184);break;
-    case 11: y.push_back(142); break;
+    case 11: y.push_back(142); y.push_back(149); break;
     case 12: y.push_back(145); break;
     case 13: y.push_back(187); break;
     case 14: y.push_back(164); y.push_back(155); break;
@@ -154,7 +163,7 @@ Mat Detector::groundTruth(char* in) {
     Point box;
     box.x = x.at(i);
     box.y = y.at(i);
-    //cv::rectangle(image, cvPoint(x.at(i)-w/2,y.at(i)-h/2) , cvPoint(x.at(i)+w/2,y.at(i)+h/2), CV_RGB(255,0,0) ,3);
+    rectangle(overlay_image, cvPoint(x.at(i)-w/2,y.at(i)-h/2) , cvPoint(x.at(i)+w/2,y.at(i)+h/2), CV_RGB(255,0,0) ,3);
 
     groundTruthBoxes.push_back(box);
   }
@@ -177,7 +186,7 @@ float Detector::calculateF1Score() {
 
     for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
         for (groundTruth = groundTruthBoxes.begin(); groundTruth != groundTruthBoxes.end(); ++groundTruth) {
-            if (abs(dartboard->bounding_box.x - groundTruth->x) < 100 && abs(dartboard->bounding_box.y - groundTruth->y) < 100) {
+            if (abs(dartboard->bounding_box.x - groundTruth->x) < 130 && abs(dartboard->bounding_box.y - groundTruth->y) < 130) {
                 ActualHits++;
                 continue;
             }
@@ -417,7 +426,7 @@ void Detector::houghTransformLine() {
     //Canny(mag, workImage, thresholds[0], thresholds[1], 3);
     //Mat output = getHoughSpace(workImage);
     //overlay_image = output;
-    drawLinesAndIntersections(lines, x, y, crosses);
+    //drawLinesAndIntersections(lines, x, y, crosses);
 
     return;
 }
@@ -582,7 +591,7 @@ vector<double> Detector::otsuMethod(Mat input) {
     Mat output;
     double high_thresh, low_thresh;
     high_thresh = threshold(input, output, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-    low_thresh = high_thresh * 0.5;
+    low_thresh = high_thresh * 0.33;
 
     return vector<double>{low_thresh, high_thresh};
 }
@@ -680,35 +689,41 @@ void Detector::violaJones() {
 void Detector::combineDectections() {
     vector<Rect>::iterator viola;
     vector<Point2f>::iterator line_hit;
+    vector<Point2f>::iterator surf_hit;
     vector<CircleDetection>::iterator circle_hit;
     vector<RotatedRect>::iterator ellipse_hit;
     vector<Triangle>::iterator triangle_hit;
 
     for (viola = viola_hits.begin(); viola!= viola_hits.end(); ++viola) {
         vector<Point2f> line_score;
+        vector<Point2f> surf_score;
         vector<CircleDetection> circle_score;
         vector<RotatedRect> ellipse_score;
         vector<Triangle> triangle_score;
 
+        int combineScore = 0;
+
         for (line_hit = line_hits.begin(); line_hit != line_hits.end(); ++line_hit) {
             if (line_hit->x >= viola->x && line_hit->y >= viola->y && line_hit->x <= (viola->x + viola->width) && line_hit->y <= (viola->y + viola->height)) {
                 line_score.push_back(*line_hit);
+                combineScore += 4;
             }
         }
 
         for (circle_hit = circle_hits.begin(); circle_hit != circle_hits.end(); ++circle_hit) {
-            if (circle_hit->center.x >= viola->x && circle_hit->center.y >= viola->y && circle_hit->center.x <= (viola->x + viola->width) && circle_hit->center.y <= (viola->y + viola->height)) {
+            if (circle_hit->center.x + circle_hit->radius >= viola->x  && circle_hit->center.y + circle_hit->radius >= viola->y && (circle_hit->center.x + circle_hit->radius) <= (viola->x + viola->width) && (circle_hit->center.y + circle_hit->radius) <= (viola->y + viola->height)) {
                 circle_score.push_back(*circle_hit);
+                combineScore += 4;
             }
         }
 
         for (ellipse_hit = ellipse_hits.begin(); ellipse_hit != ellipse_hits.end(); ++ellipse_hit) {
             if (ellipse_hit->center.x >= viola->x && ellipse_hit->center.y >= viola->y && ellipse_hit->center.x <= (viola->x + viola->width) && ellipse_hit->center.y <= (viola->y + viola->height)) {
                 ellipse_score.push_back(*ellipse_hit);
+                combineScore += 4;
             }
         }
 
-        //TODO: Fix this, it's broken
         for (triangle_hit = triangle_hits.begin(); triangle_hit != triangle_hits.end(); ++triangle_hit) {
             bool inside = true;
             for (int i = 0; i < 3; i++) {
@@ -719,12 +734,22 @@ void Detector::combineDectections() {
             }
             if (inside) {
                 triangle_score.push_back(*triangle_hit);
+                combineScore += 3;
             }
         }
 
-        if(line_score.empty() && circle_score.empty() && ellipse_score.empty() && triangle_score.empty()) {
+        for (surf_hit = surf_hits.begin(); surf_hit != surf_hits.end(); ++surf_hit) {
+            if (surf_hit->x >= viola->x && surf_hit->y >= viola->y && surf_hit->x <= (viola->x + viola->width) && surf_hit->y <= (viola->y + viola->height)) {
+                surf_score.push_back(*surf_hit);
+                combineScore += 2;
+            }
+        }
+
+        if(combineScore < 4) {
             continue;
         }
+
+        //printf("%d\n", combineScore);
 
         float avx, avy, avwidth, avheight;
         avx = avy = avwidth = avheight = 0;
@@ -732,6 +757,10 @@ void Detector::combineDectections() {
         for (line_hit = line_score.begin(); line_hit != line_score.end(); ++line_hit) {
             avx += line_hit->x;
             avy += line_hit->y;
+        }
+        for (surf_hit = surf_score.begin(); surf_hit != surf_score.end(); ++surf_hit) {
+            avx += surf_hit->x;
+            avy += surf_hit->y;
         }
         for (circle_hit = circle_score.begin(); circle_hit != circle_score.end(); ++circle_hit) {
             avx += circle_hit->center.x;
@@ -742,18 +771,22 @@ void Detector::combineDectections() {
         for (ellipse_hit = ellipse_score.begin(); ellipse_hit != ellipse_score.end(); ++ellipse_hit) {
             avx += ellipse_hit->center.x;
             avy += ellipse_hit->center.y;
-            avwidth += (ellipse_hit->size.width / 2);
-            avheight += (ellipse_hit->size.height / 2);
+            //avwidth += (ellipse_hit->size.width / 2);
+            //avheight += (ellipse_hit->size.height / 2);
         }
-        for (triangle_hit = triangle_score.begin(); triangle_hit != triangle_score.end(); ++triangle_hit) {
-            avx += ((triangle_hit->points[0].x + triangle_hit->points[1].x + triangle_hit->points[2].x) / 3);
-            avy += ((triangle_hit->points[0].y + triangle_hit->points[1].y + triangle_hit->points[2].y) / 3);
-        }
+        //for (triangle_hit = triangle_score.begin(); triangle_hit != triangle_score.end(); ++triangle_hit) {
+        //    avx += ((triangle_hit->points[0].x + triangle_hit->points[1].x + triangle_hit->points[2].x) / 3);
+        //    avy += ((triangle_hit->points[0].y + triangle_hit->points[1].y + triangle_hit->points[2].y) / 3);
+        //}
 
-        avx = avx / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_score.size());
-        avy = avy / (line_score.size() + circle_score.size() + ellipse_score.size() + triangle_score.size());
-        avwidth = (viola->width + avwidth) / (circle_score.size() + ellipse_score.size() + 1);
-        avheight = (viola->height + avheight) / (circle_score.size() + ellipse_score.size() + 1);
+        avx = avx / (line_score.size() + circle_score.size() + ellipse_score.size() + surf_score.size());
+        avy = avy / (line_score.size() + circle_score.size() + ellipse_score.size() + surf_score.size());
+        if (circle_score.size() > 0) {//|| ellipse_score.size() > 0 ) {
+            avwidth = (viola->width + avwidth) / (circle_score.size()); //+ ellipse_score.size());
+            avheight = (viola->height + avheight) / (circle_score.size());// + ellipse_score.size());
+        } else {
+            avwidth = avheight = 100;
+        }
 
         DartBoard dartboard;
         dartboard.bounding_box.x = avx - (avwidth / 2);
@@ -846,6 +879,18 @@ int Detector::read_image (String path) {
     return 0;
 }
 
+int Detector::read_pos_image (String path) {
+    Mat input = imread(path, CV_LOAD_IMAGE_COLOR);
+    if(!image.data){
+        printf("No image data \n");
+        return -1;
+    }
+
+    posImage = input;
+    //cvtColor(input, posImage, CV_BGR2GRAY);
+    return 0;
+}
+
 int Detector::load_cascade(String path) {
     if(!cascade.load(path)) {
         printf("Could no load cascade xml\n");
@@ -901,6 +946,102 @@ void parse_arguments(int argc, char *argv[]) {
     }
 }
 
+void Detector::surfDetector() {
+    int minHessian = 1000;
+
+    SurfFeatureDetector detector( minHessian );
+
+    vector<KeyPoint> keypoints_1, keypoints_2;
+
+    detector.detect( posImage, keypoints_1 );
+    detector.detect( image,  keypoints_2 );
+
+    SurfDescriptorExtractor extractor;
+
+    Mat descriptors_1, descriptors_2;
+
+    extractor.compute( posImage, keypoints_1, descriptors_1 );
+    extractor.compute( image, keypoints_2, descriptors_2 );
+
+    FlannBasedMatcher matcher;
+    vector< DMatch > matches;
+    matcher.match( descriptors_1, descriptors_2, matches );
+
+    double max_dist = 0; double min_dist = 100;
+
+    for( int i = 0; i < descriptors_1.rows; i++ ){
+        double dist = matches[i].distance;
+        if( dist < min_dist ) min_dist = dist;
+        if( dist > max_dist ) max_dist = dist;
+    }
+
+
+    vector< DMatch > good_matches;
+    for( int i = 0; i < descriptors_1.rows; i++ ) {
+        if( matches[i].distance <= 2 * min_dist ) {
+            good_matches.push_back( matches[i]);
+        }
+    }
+
+    Mat img_matches;
+    drawMatches( posImage, keypoints_1, image, keypoints_2,
+               good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+               vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+
+    vector<Point2f> surfPoints, realPoints, clusters;
+    Point test;
+
+    for (int i = 0; i < good_matches.size(); i++) {
+        surfPoints.push_back(keypoints_2[good_matches[i].trainIdx].pt);
+    }
+
+    for (unsigned i = 0; i < surfPoints.size(); i++) {
+        //printf("%f %f\n", surfPoints.at(i).x, surfPoints.at(i).y);
+        if (surfPoints.at(i).x && surfPoints.at(i).y) realPoints.push_back(surfPoints.at(i));
+    }
+
+    while (realPoints.size() > 0) {
+        Point p = realPoints.back();
+        int count = 1;
+        realPoints.erase(realPoints.end() -1);
+        for (unsigned i = realPoints.size(); i-- > 0;) {
+            test = realPoints.at(i);
+            float distancex = (test.x - p.x) * (test.x - p.x);
+            float distancey = (test.y - p.y) * (test.y - p.y);
+            float distance = sqrt(distancex - distancey);
+            if (distance < 10) {
+                count++;
+                p.x = int ((p.x + test.x  ) / 2);
+                p.y = int ((p.y + test.y  ) / 2);
+                realPoints.erase(realPoints.begin() + i);
+            }
+        }
+
+        clusters.push_back(p);
+    }
+
+    surf_hits = clusters;
+
+    for (int i = 0; i < surf_hits.size(); i ++) {
+        //surf_hits.push_back(keypoints_2[good_matches[i].trainIdx].pt);
+        //circle(overlay_image, keypoints_2[good_matches[i].trainIdx].pt, 7, Scalar(255,255,0), -1, 8, 0 );
+        circle(overlay_image, surf_hits.at(i), 7, Scalar(255,255,0), -1, 8, 0 );
+    }
+
+    //detections_image = img_matches;
+}
+
+float Detector::windowScore(Mat window) {
+    float score = 0;
+    for (int x = 0; x < window.cols; x++) {
+        for (int y = 0; y < window.rows; y++) {
+            score += abs(window.at<uchar>(x, y ) - posImage.at<uchar>(x, y));
+        }
+    }
+
+    return score;
+}
+
 int main( int argc, char* argv[] ) {
     Detector detector;
 
@@ -916,11 +1057,13 @@ int main( int argc, char* argv[] ) {
     if (detector.load_cascade(cascadePath)) {
         return -1;
     }
+    if (detector.read_pos_image(posPath)) {
+        return -1;
+    }
 
-    detector.detections_image = detector.groundTruth(argv[1]);
+    detector.groundTruth(argv[1]);
 
     detector.convert_grey();
-    //detector.equalize_hist();
     //detector.equalize_hist();
     detector.sobel();
     detector.houghTransformCircle();
@@ -929,13 +1072,19 @@ int main( int argc, char* argv[] ) {
 
     detector.violaJones();
 
-    //detector.triangles();
+    detector.triangles();
 
-    //detector.ellipses();
+    detector.ellipses();
+
+    detector.surfDetector();
 
     detector.combineDectections();
 
     //detector.write_overlay_image(outputPath);
+    detector.detections_image = detector.overlay_image;
+
+    //detector.detections_image = detector.posImage;
+
     detector.write_detections_image(outputPath);
 
     float F1score = detector.calculateF1Score();

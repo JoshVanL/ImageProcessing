@@ -17,4 +17,5 @@ echo completed
 
 total=$(cat f1scores | paste -sd+ | bc -l)
 total=$(bc -l <<< $total/$iter)
+echo "Average F1score = $total"
 echo "Average F1score = $total" >> f1scores
