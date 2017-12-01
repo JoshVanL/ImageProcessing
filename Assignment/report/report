@@ -1,0 +1,21 @@
+In order to improve our dartboard classifier, we considered further shapes which help to classify a dartboard being present.
+As such we identified two shapes to consider - ellipses and triangles.
+We realised that some dartboards had been not been identified by our classifier due to not being detected by circles with dartboards that are at an angle.
+By using ellipse shapes we would be able to capture this shape of valid dartboards.
+We also chose to consider triangle shapes inside images to detect dartboards.
+This is because all dartboards have distinct triangles contained that will give more detections that can be combined in our detector.
+
+Detecting both triangle and ellipse shapes is achieved by first applying the Canny edge detector on the grey scale input image.
+The Canny edge detector, developed by  John F. Canny in 1986. [add citation] and works by calculating the gradient magnitude of each pixel. To determine whether each pixel is part of an edge two thresholds are applied, pixels higher than the larger threshold are considered pixels on an edge, pixels below the lower threshold are discarded and pixels in-between the two thresholds are considered edges only if they are connected to a pixel that is above the higher threshold.
+In order to select an appropriate threshold for each image, the Otsu method can be applied. [https://en.wikipedia.org/wiki/Otsu%27s_method]
+
+The Otsu method is used to determine the largest threshold input for the Canny edge detector.
+TODO: Talk about how the method works.
+The lower threshold value is one third of the returning value from the Otsu method.
+
+
+
+If a pixel gradient is higher than the upper threshold, the pixel is accepted as an edge
+If a pixel gradient value is below the lower threshold, then it is rejected.
+If the pixel gradient is between the two thresholds, then it will be accepted only if it is connected to a pixel that is above the upper threshold.
+Canny recommended a upper:lower ratio between 2:1 and 3:1.
