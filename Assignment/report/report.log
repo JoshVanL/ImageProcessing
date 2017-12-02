@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  1 DEC 2017 22:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  2 DEC 2017 01:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -881,293 +881,173 @@ Package caption Info: End \AtBeginDocument code.
  (/usr/share/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
 )
-<task1/out4.jpg, id=51, 702.625pt x 702.625pt>
+<task1/out4.jpg, id=31, 702.625pt x 702.625pt>
 File: task1/out4.jpg Graphic file (type jpg)
 <use task1/out4.jpg>
 Package pdftex.def Info: task1/out4.jpg  used on input line 49. on input line 4
 9.
 Package pdftex.def Info: Requested size: 56.8973pt x 56.8973pt on input line 49
 .
-<task1/out5.jpg, id=52, 803.0pt x 679.53876pt>
+<task1/out5.jpg, id=32, 803.0pt x 679.53876pt>
 File: task1/out5.jpg Graphic file (type jpg)
 <use task1/out5.jpg>
 Package pdftex.def Info: task1/out5.jpg  used on input line 51. on input line 5
 1.
 Package pdftex.def Info: Requested size: 67.24324pt x 56.90459pt on input line 
 51.
-<task1/out13.jpg, id=53, 617.30624pt x 410.53375pt>
+<task1/out13.jpg, id=33, 617.30624pt x 410.53375pt>
 File: task1/out13.jpg Graphic file (type jpg)
 <use task1/out13.jpg>
 Package pdftex.def Info: task1/out13.jpg  used on input line 53. on input line 
 53.
 Package pdftex.def Info: Requested size: 85.56512pt x 56.90428pt on input line 
 53.
-<task1/out14.jpg, id=54, 1228.59pt x 662.475pt>
+<task1/out14.jpg, id=34, 1228.59pt x 662.475pt>
 File: task1/out14.jpg Graphic file (type jpg)
 <use task1/out14.jpg>
 Package pdftex.def Info: task1/out14.jpg  used on input line 55. on input line 
 55.
 Package pdftex.def Info: Requested size: 105.52545pt x 56.90097pt on input line
  55.
-<task1/out15.jpg, id=55, 702.625pt x 502.87875pt>
+<task1/out15.jpg, id=35, 702.625pt x 502.87875pt>
 File: task1/out15.jpg Graphic file (type jpg)
 <use task1/out15.jpg>
 Package pdftex.def Info: task1/out15.jpg  used on input line 57. on input line 
 57.
 Package pdftex.def Info: Requested size: 79.50827pt x 56.9052pt on input line 5
 7.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 80.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 81.
 
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 80.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 81.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./task1/out4.jpg> <./task1
 /out5.jpg> <./task1/out13.jpg> <./task1/out14.jpg> <./task1/out15.jpg>]
+PGFPlots: reading {task2/TPR.dat}
+PGFPlots: reading {task2/FPR.dat}
+<task2/out4.jpg, id=59, 702.625pt x 702.625pt>
+File: task2/out4.jpg Graphic file (type jpg)
+<use task2/out4.jpg>
+Package pdftex.def Info: task2/out4.jpg  used on input line 127. on input line 
+127.
+Package pdftex.def Info: Requested size: 56.8973pt x 56.8973pt on input line 12
+7.
+<task2/out11.jpg, id=60, 513.92pt x 289.08pt>
+File: task2/out11.jpg Graphic file (type jpg)
+<use task2/out11.jpg>
+Package pdftex.def Info: task2/out11.jpg  used on input line 129. on input line
+ 129.
+Package pdftex.def Info: Requested size: 101.15892pt x 56.90189pt on input line
+ 129.
+<task2/out14.jpg, id=61, 1228.59pt x 662.475pt>
+File: task2/out14.jpg Graphic file (type jpg)
+<use task2/out14.jpg>
+Package pdftex.def Info: task2/out14.jpg  used on input line 131. on input line
+ 131.
+Package pdftex.def Info: Requested size: 105.52545pt x 56.90097pt on input line
+ 131.
+<task2/out15.jpg, id=62, 702.625pt x 502.87875pt>
+File: task2/out15.jpg Graphic file (type jpg)
+<use task2/out15.jpg>
+Package pdftex.def Info: task2/out15.jpg  used on input line 133. on input line
+ 133.
+Package pdftex.def Info: Requested size: 79.50827pt x 56.9052pt on input line 1
+33.
+ [2 <./task2/out4.jpg> <./task2/out11.jpg> <./task2/out14.jpg> <./task2/out15.j
+pg>]
+! You can't use `macro parameter character #' in vertical mode.
+l.168 #
+       # Not sure we should use a new formula. We are using our own code to ...
 
-! Package pgfplots Error: Could not read table file 'Task_2/TPR.dat' in 'search
- path=.'. In case you intended to provide inline data: maybe TeX screwed up you
-r end-of-lines? Try `row sep=crcr' and terminate your lines with `\\' (refer to
- the pgfplotstable manual for details).
-
-See the pgfplots package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.105       \addplot table {Task_2/TPR.dat};
-                                            
 ? 
-PGFPlots: reading {Task_2/TPR.dat}
+! You can't use `macro parameter character #' in vertical mode.
+l.168 ##
+         Not sure we should use a new formula. We are using our own code to ...
 
-Package pgfplots Warning: the current plot has no coordinates (or all have been
- filtered away) on input line 105.
-
- [warning /pgfplots/warning/plot without coordinates]
-
-! Package pgfplots Error: Could not read table file 'Task_2/FPR.dat' in 'search
- path=.'. In case you intended to provide inline data: maybe TeX screwed up you
-r end-of-lines? Try `row sep=crcr' and terminate your lines with `\\' (refer to
- the pgfplotstable manual for details).
-
-See the pgfplots package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.106       \addplot table {Task_2/FPR.dat};
-                                            
 ? 
-PGFPlots: reading {Task_2/FPR.dat}
+<task3/mag5.jpg, id=75, 803.0pt x 679.53876pt>
+File: task3/mag5.jpg Graphic file (type jpg)
+<use task3/mag5.jpg>
+Package pdftex.def Info: task3/mag5.jpg  used on input line 179. on input line 
+179.
+Package pdftex.def Info: Requested size: 67.24324pt x 56.90459pt on input line 
+179.
 
-Package pgfplots Warning: the current plot has no coordinates (or all have been
- filtered away) on input line 106.
-
- [warning /pgfplots/warning/plot without coordinates]
-
-Package pgfplots Warning: You have an axis with empty range (in direction y). R
-eplacing it with a default range and clearing all plots. on input line 107.
-
- [warning /pgfplots/warning/empty range cleared axis]
-
-LaTeX Warning: File `Task_2/out4.jpg' not found on input line 116.
-
-
-! Package pdftex.def Error: File `Task_2/out4.jpg' not found: using draft setti
-ng.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.116 ...tratio]{Task_2/out4.jpg}\label{fig:out4}}
-                                                  
-? 
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 116.
-
-(/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-
-LaTeX Warning: File `Task_2/out11.jpg' not found on input line 118.
-
-
-! Package pdftex.def Error: File `Task_2/out11.jpg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.118 ...atio]{Task_2/out11.jpg}\label{fig:out11}}
-                                                  
-? 
-
-LaTeX Warning: File `Task_2/out14.jpg' not found on input line 120.
-
-
-! Package pdftex.def Error: File `Task_2/out14.jpg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.120 ...atio]{Task_2/out14.jpg}\label{fig:out14}}
-                                                  
-? 
-
-LaTeX Warning: File `Task_2/out15.jpg' not found on input line 122.
-
-
-! Package pdftex.def Error: File `Task_2/out15.jpg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.122 ...atio]{Task_2/out15.jpg}\label{fig:out15}}
-                                                  
-? 
-
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 156.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.156 ...ratio]{Task_3/test.jpeg}\label{fig:mag1}}
-                                                  
-? 
-
-Underfull \hbox (badness 7081) in paragraph at lines 156--156
-[]\T1/cmr/m/n/8 (a) |Thresh-old
+Underfull \hbox (badness 10000) in paragraph at lines 179--179
+[]\T1/cmr/m/n/8 (a) |Thresh-
  []
 
 
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 158.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.158 ...tio]{Task_3/test.jpeg}\label{fig:hough1}}
-                                                  
-? 
-
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
-[]\T1/cmr/m/n/8 (b) |Hough
+Underfull \hbox (badness 10000) in paragraph at lines 179--179
+\T1/cmr/m/n/8 old Gra-di-ent
  []
 
-
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 160.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.160 ...io]{Task_3/test.jpeg}\label{fig:result1}}
-                                                  
-? 
-[2]
-
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 167.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.167 ...ratio]{Task_3/test.jpeg}\label{fig:mag2}}
-                                                  
-? 
-
-Underfull \hbox (badness 7081) in paragraph at lines 167--167
-[]\T1/cmr/m/n/8 (a) |Thresh-old
- []
-
-
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 169.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.169 ...tio]{Task_3/test.jpeg}\label{fig:hough2}}
-                                                  
-? 
-
-Underfull \hbox (badness 10000) in paragraph at lines 169--169
-[]\T1/cmr/m/n/8 (b) |Hough
- []
-
-
-LaTeX Warning: File `Task_3/test.jpeg' not found on input line 171.
-
-
-! Package pdftex.def Error: File `Task_3/test.jpeg' not found: using draft sett
-ing.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.171 ...io]{Task_3/test.jpeg}\label{fig:result2}}
-                                                  
-? 
-
-LaTeX Warning: File `Task_3/flowchart.png' not found on input line 180.
-
-
-! Package pdftex.def Error: File `Task_3/flowchart.png' not found: using draft 
-setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.180 ...sk_3/flowchart.png}\label{fig:flowchart}}
-                                                  
-? 
-[3] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 232.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 232.
+<task3/hough5.jpg, id=76, 461.725pt x 361.35pt>
+File: task3/hough5.jpg Graphic file (type jpg)
+<use task3/hough5.jpg>
+Package pdftex.def Info: task3/hough5.jpg  used on input line 181. on input lin
+e 181.
+Package pdftex.def Info: Requested size: 72.70798pt x 56.90189pt on input line 
+181.
+<task3/out5.jpg, id=77, 803.0pt x 679.53876pt>
+File: task3/out5.jpg Graphic file (type jpg)
+<use task3/out5.jpg>
+Package pdftex.def Info: task3/out5.jpg  used on input line 183. on input line 
+183.
+Package pdftex.def Info: Requested size: 67.24324pt x 56.90459pt on input line 
+183.
+<task3/mag10.jpg, id=78, 1003.75pt x 727.71875pt>
+File: task3/mag10.jpg Graphic file (type jpg)
+<use task3/mag10.jpg>
+Package pdftex.def Info: task3/mag10.jpg  used on input line 190. on input line
+ 190.
+Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 1
+90.
+<task3/hough10.jpg, id=79, 461.725pt x 361.35pt>
+File: task3/hough10.jpg Graphic file (type jpg)
+<use task3/hough10.jpg>
+Package pdftex.def Info: task3/hough10.jpg  used on input line 192. on input li
+ne 192.
+Package pdftex.def Info: Requested size: 72.70798pt x 56.90189pt on input line 
+192.
+<task3/out10.jpg, id=80, 1003.75pt x 727.71875pt>
+File: task3/out10.jpg Graphic file (type jpg)
+<use task3/out10.jpg>
+Package pdftex.def Info: task3/out10.jpg  used on input line 194. on input line
+ 194.
+Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 1
+94.
+<task3/flowchart.png, id=81, 817.0525pt x 243.91125pt>
+File: task3/flowchart.png Graphic file (type png)
+<use task3/flowchart.png>
+Package pdftex.def Info: task3/flowchart.png  used on input line 215. on input 
+line 215.
+Package pdftex.def Info: Requested size: 381.24701pt x 113.81206pt on input lin
+e 215.
+[3 <./task3/mag5.jpg> <./task3/hough5.jpg> <./task3/out5.jpg> <./task3/mag10.jp
+g> <./task3/hough10.jpg> <./task3/out10.jpg>] [4 <./task3/flowchart.png>]
+[5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 299.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 299.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 232.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 232.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 299.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 299.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: A3B936C344C17AA7026326CFF060F8E1;727.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 232.
+(rerunfilecheck)             Checksum: 78323B446677C7618ADC19C28F3C3AEC;350.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 299.
  ) 
 Here is how much of TeX's memory you used:
- 29204 strings out of 492985
- 687797 string characters out of 6138637
- 867953 words of memory out of 5000000
- 32236 multiletter control sequences out of 15000+600000
- 13195 words of font info for 36 fonts, out of 8000000 for 9000
+ 29253 strings out of 492985
+ 688758 string characters out of 6138637
+ 872095 words of memory out of 5000000
+ 32283 multiletter control sequences out of 15000+600000
+ 12882 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 64i,11n,111p,727b,1912s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,11n,111p,727b,1944s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/font
 s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/
@@ -1176,12 +1056,11 @@ amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 are/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf-dist/
 fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf-dist/fonts/type1/pub
 lic/cm-super/sfrm1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sf
-rm1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></us
-r/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (4 pages, 1089703 bytes).
+rm1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
+Output written on report.pdf (5 pages, 2602748 bytes).
 PDF statistics:
  156 PDF objects out of 1000 (max. 8388607)
- 132 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 126 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 120 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
+ 141 words of extra memory for PDF output out of 10000 (max. 10000000)
 

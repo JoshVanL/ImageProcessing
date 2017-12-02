@@ -44,7 +44,6 @@ struct Triangle {
 
 class Detector {
     private:
-        Mat mag, grey;
         vector<Point> groundTruthBoxes;
         vector<Point2f> line_hits;
         vector<Point2f> surf_hits;
@@ -63,6 +62,7 @@ class Detector {
 
     public:
         Mat image, overlay_image, detections_image, posImage;
+        Mat mag, grey;
         int read_image (String);
         int read_pos_image(String);
         int load_cascade (String);
@@ -426,7 +426,7 @@ void Detector::houghTransformLine() {
     //Canny(mag, workImage, thresholds[0], thresholds[1], 3);
     //Mat output = getHoughSpace(workImage);
     //overlay_image = output;
-    //drawLinesAndIntersections(lines, x, y, crosses);
+    drawLinesAndIntersections(lines, x, y, crosses);
 
     return;
 }
@@ -1080,8 +1080,9 @@ int main( int argc, char* argv[] ) {
 
     detector.combineDectections();
 
+    //detector.overlay_image = detector.mag;
     //detector.write_overlay_image(outputPath);
-    detector.detections_image = detector.overlay_image;
+    //detector.detections_image = detector.overlay_image;
 
     //detector.detections_image = detector.posImage;
 

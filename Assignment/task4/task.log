@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  1 DEC 2017 18:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  2 DEC 2017 00:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1220,18 +1220,6 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no : in font nullfont!
-Missing character: There is no M in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no y in font nullfont!
-Missing character: There is no ; in font nullfont!
 Missing character: There is no v in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no c in font nullfont!
@@ -1284,7 +1272,7 @@ Missing character: There is no e in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.49         vector<Point2f> line_
+l.48         vector<Point2f> line_
                                   hits;
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1292,78 +1280,78 @@ you left one out. Proceed, with fingers crossed.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.63 
+l.62 
      
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 45--63
+Overfull \hbox (20.0pt too wide) in paragraph at lines 45--62
 []
  []
 
 
-Overfull \hbox (59.36296pt too wide) in paragraph at lines 45--63
+Overfull \hbox (59.36296pt too wide) in paragraph at lines 45--62
 []\OML/cmm/m/it/10 its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (47.24265pt too wide) in paragraph at lines 45--63
+Overfull \hbox (47.24265pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 Point\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 f >
  []
 
 
-Overfull \hbox (79.46027pt too wide) in paragraph at lines 45--63
+Overfull \hbox (79.46027pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 surf[]its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (82.53087pt too wide) in paragraph at lines 45--63
+Overfull \hbox (82.53087pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 CircleDetection >
  []
 
 
-Overfull \hbox (84.08942pt too wide) in paragraph at lines 45--63
+Overfull \hbox (84.08942pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 circle[]its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (30.8206pt too wide) in paragraph at lines 45--63
+Overfull \hbox (30.8206pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 Rect >
  []
 
 
-Overfull \hbox (81.32779pt too wide) in paragraph at lines 45--63
+Overfull \hbox (81.32779pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 viola[]its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (65.70723pt too wide) in paragraph at lines 45--63
+Overfull \hbox (65.70723pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 RotatedRect >
  []
 
 
-Overfull \hbox (88.20052pt too wide) in paragraph at lines 45--63
+Overfull \hbox (88.20052pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 ellipse[]its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (50.2762pt too wide) in paragraph at lines 45--63
+Overfull \hbox (50.2762pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 Triangle >
  []
 
 
-Overfull \hbox (95.46211pt too wide) in paragraph at lines 45--63
+Overfull \hbox (95.46211pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 triangle[]its\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (61.01299pt too wide) in paragraph at lines 45--63
+Overfull \hbox (61.01299pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 DartBoard >
  []
 
 
-Overfull \hbox (664.57738pt too wide) in paragraph at lines 45--63
+Overfull \hbox (664.57738pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 dartboards\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 voiddeduplicate[]
 its\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 boolrectOverlap\OT1/cmr/m/n/10 (\OML/cm
 m/m/it/10 Rect; Rect\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 boolvalueInRange\OT1/cm
@@ -1374,29 +1362,29 @@ cmm/m/it/10 f\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 vector <
  []
 
 
-Overfull \hbox (38.46068pt too wide) in paragraph at lines 45--63
+Overfull \hbox (38.46068pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 double >
  []
 
 
-Overfull \hbox (273.7559pt too wide) in paragraph at lines 45--63
+Overfull \hbox (273.7559pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 otsuMethod\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Mat\OT1/cmr/m/n/10
  ); \OML/cmm/m/it/10 voiddrawLinesAndIntersections\OT1/cmr/m/n/10 (\OML/cmm/m/i
 t/10 vector <
  []
 
 
-Overfull \hbox (38.56717pt too wide) in paragraph at lines 45--63
+Overfull \hbox (38.56717pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 Vec\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 f >
  []
 
 
-Overfull \hbox (57.50903pt too wide) in paragraph at lines 45--63
+Overfull \hbox (57.50903pt too wide) in paragraph at lines 45--62
 \OML/cmm/m/it/10 ; int; int; int \OMS/cmsy/m/n/10 ^^C
  []
 
 
-Overfull \hbox (126.15945pt too wide) in paragraph at lines 45--63
+Overfull \hbox (126.15945pt too wide) in paragraph at lines 45--62
 \OMS/cmsy/m/n/10 ^^C\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 floatwindowScore\OT1/cm
 r/m/n/10 (\OML/cmm/m/it/10 Mat\OT1/cmr/m/n/10 );$ 
  []
@@ -1408,7 +1396,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.64     p
+l.63     p
           ublic:
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1439,7 +1427,7 @@ Missing character: There is no y in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.65         Mat image, overlay_
+l.64         Mat image, overlay_
                                 image, detections_image, posImage;
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1462,32 +1450,33 @@ I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 64--87
+Overfull \hbox (20.0pt too wide) in paragraph at lines 63--87
 []
  []
 
 
-Overfull \hbox (2272.97629pt too wide) in paragraph at lines 64--87
+Overfull \hbox (2340.58395pt too wide) in paragraph at lines 63--87
 []\OML/cmm/m/it/10 mage; detections[]mage; posImage\OT1/cmr/m/n/10 ; \OML/cmm/m
-/it/10 intread[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); 
-\OML/cmm/m/it/10 intread[]os[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/
-cmr/m/n/10 ); \OML/cmm/m/it/10 intload[]ascade\OT1/cmr/m/n/10 (\OML/cmm/m/it/10
- String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidconvert[]rey\OT1/cmr/m/n/10 (); 
-\OML/cmm/m/it/10 Matconvolve\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Mat\OT1/cmr/m/n/1
-0 ); \OML/cmm/m/it/10 voidsobel\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidhoughTr
-ansformLine\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidhoughTransformCircle\OT1/cm
-r/m/n/10 (); \OML/cmm/m/it/10 voidviolaJones\OT1/cmr/m/n/10 (); \OML/cmm/m/it/1
-0 voidellipses\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidcombineDectections\OT1/c
-mr/m/n/10 (); \OML/cmm/m/it/10 voidwrite[]mage[]ag\OT1/cmr/m/n/10 (\OML/cmm/m/i
-t/10 String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidwrite[]verlay[]mage\OT1/cmr/
-m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidwrite[]e
-tections[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/c
-mm/m/it/10 voidequalize[]ist\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidtriangles\
-OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 MatgetHoughSpace\OT1/cmr/m/n/10 (\OML/cmm/m
-/it/10 Mat\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 MatgroundTruth\OT1/cmr/m/n/10 (\O
-ML/cmm/m/it/10 char\OMS/cmsy/m/n/10 ^^C\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 floa
-tcalculateF\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 Score\OT1/cmr/m/n/10 (); \OML/cmm/
-m/it/10 voidsurfDetector\OT1/cmr/m/n/10 (); ;$ 
+/it/10 Matmag; grey\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 intread[]mage\OT1/cmr/m/n
+/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 intread[]os[]ma
+ge\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 i
+ntload[]ascade\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/c
+mm/m/it/10 voidconvert[]rey\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 Matconvolve\OT1
+/cmr/m/n/10 (\OML/cmm/m/it/10 Mat\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidsobel\
+OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidhoughTransformLine\OT1/cmr/m/n/10 (); \
+OML/cmm/m/it/10 voidhoughTransformCircle\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 vo
+idviolaJones\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidellipses\OT1/cmr/m/n/10 ()
+; \OML/cmm/m/it/10 voidcombineDectections\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 v
+oidwrite[]mage[]ag\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \O
+ML/cmm/m/it/10 voidwrite[]verlay[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 String\
+OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidwrite[]etections[]mage\OT1/cmr/m/n/10 (\
+OML/cmm/m/it/10 String\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 voidequalize[]ist\OT1
+/cmr/m/n/10 (); \OML/cmm/m/it/10 voidtriangles\OT1/cmr/m/n/10 (); \OML/cmm/m/it
+/10 MatgetHoughSpace\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Mat\OT1/cmr/m/n/10 ); \OM
+L/cmm/m/it/10 MatgroundTruth\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 char\OMS/cmsy/m/n
+/10 ^^C\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 floatcalculateF\OT1/cmr/m/n/10 1\OML
+/cmm/m/it/10 Score\OT1/cmr/m/n/10 (); \OML/cmm/m/it/10 voidsurfDetector\OT1/cmr
+/m/n/10 (); ;$ 
  []
 
 
@@ -2322,85 +2311,18 @@ Missing character: There is no g in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no ( in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no g in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no v in font nullfont!
 Missing character: There is no e in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no v in font nullfont!
-Missing character: There is no P in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no x in font nullfont!
-Missing character: There is no . in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no l in font nullfont!
 Missing character: There is no a in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no - in font nullfont!
-Missing character: There is no w in font nullfont!
-Missing character: There is no / in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no , in font nullfont!
 Missing character: There is no y in font nullfont!
-Missing character: There is no . in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no - in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no / in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no v in font nullfont!
-Missing character: There is no P in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no x in font nullfont!
-Missing character: There is no . in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no + in font nullfont!
-Missing character: There is no w in font nullfont!
-Missing character: There is no / in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no y in font nullfont!
-Missing character: There is no . in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no + in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no / in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no C in font nullfont!
-Missing character: There is no V in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.166 ...) , cvPoint(x.at(i)+w/2,y.at(i)+h/2), CV_
-                                                  RGB(255,0,0) ,3);
+l.166     rectangle(overlay_
+                            image, cvPoint(x.at(i)-w/2,y.at(i)-h/2) , cvPoin...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
@@ -2418,9 +2340,34 @@ Overfull \hbox (20.0pt too wide) in paragraph at lines 162--167
  []
 
 
-Overfull \hbox (80.2872pt too wide) in paragraph at lines 162--167
-[]\OML/cmm/m/it/10 GB\OT1/cmr/m/n/10 (255\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\O
-ML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0)\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 3);$ 
+Overfull \hbox (107.15257pt too wide) in paragraph at lines 162--167
+[]\OML/cmm/m/it/10 mage; cvPoint\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x:at\OT1/cmr/
+m/n/10 (\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (57.80981pt too wide) in paragraph at lines 162--167
+\OML/cmm/m/it/10 w=\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 ; y:at\OT1/cmr/m/n/10 (\OM
+L/cmm/m/it/10 i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (99.62305pt too wide) in paragraph at lines 162--167
+\OML/cmm/m/it/10 h=\OT1/cmr/m/n/10 2)\OML/cmm/m/it/10 ; cvPoint\OT1/cmr/m/n/10 
+(\OML/cmm/m/it/10 x:at\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ) +
+ []
+
+
+Overfull \hbox (57.80981pt too wide) in paragraph at lines 162--167
+\OML/cmm/m/it/10 w=\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 ; y:at\OT1/cmr/m/n/10 (\OM
+L/cmm/m/it/10 i\OT1/cmr/m/n/10 ) +
+ []
+
+
+Overfull \hbox (118.07794pt too wide) in paragraph at lines 162--167
+\OML/cmm/m/it/10 h=\OT1/cmr/m/n/10 2)\OML/cmm/m/it/10 ; CV[]GB\OT1/cmr/m/n/10 (
+255\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0)\OM
+L/cmm/m/it/10 ; \OT1/cmr/m/n/10 3);$ 
  []
 
 
@@ -3151,12 +3098,12 @@ Missing character: There is no g in font nullfont!
 <inserted text> 
                 $
 l.189             if (abs(dartboard->bounding_
-                                              box.x - groundTruth->x) < 100 ...
+                                              box.x - groundTruth->x) < 130 ...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Misplaced alignment tab character &.
-l.189 ...>bounding_box.x - groundTruth->x) < 100 &
+l.189 ...>bounding_box.x - groundTruth->x) < 130 &
                                                   & abs(dartboard->bounding_...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -3166,7 +3113,7 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 ! Misplaced alignment tab character &.
-l.189 ...bounding_box.x - groundTruth->x) < 100 &&
+l.189 ...bounding_box.x - groundTruth->x) < 130 &&
                                                    abs(dartboard->bounding_b...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -3223,7 +3170,7 @@ Overfull \hbox (20.15968pt too wide) in paragraph at lines 187--195
 
 
 Overfull \hbox (94.79755pt too wide) in paragraph at lines 187--195
-\OT1/cmr/m/n/10 100\OML/cmm/m/it/10 abs\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 dartbo
+\OT1/cmr/m/n/10 130\OML/cmm/m/it/10 abs\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 dartbo
 ard\OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 >
  []
 
@@ -3244,7 +3191,7 @@ Overfull \hbox (19.70601pt too wide) in paragraph at lines 187--195
 
 
 Overfull \hbox (135.2261pt too wide) in paragraph at lines 187--195
-\OT1/cmr/m/n/10 100)[]$ 
+\OT1/cmr/m/n/10 130)[]$ 
  []
 
 
@@ -6765,11 +6712,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.348     C
-           anny(mag, workImage, 50, 200, 3);
+l.348     /
+           /Canny(mag, workImage, 50, 200, 3);
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+Missing character: There is no / in font nullfont!
+Missing character: There is no / in font nullfont!
 Missing character: There is no C in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
@@ -7000,11 +6949,10 @@ mr/m/n/10 :
  []
 
 
-Overfull \hbox (516.7046pt too wide) in paragraph at lines 350--357
+Overfull \hbox (484.2821pt too wide) in paragraph at lines 350--357
 \OML/cmm/m/it/10 Defaultparameterstozero:CheckOpenCVreferenceformoreinfo:HoughL
-ines\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 workImage; lines; \OT1/cmr/m/n/10 1\OML/c
-mm/m/it/10 ; CV[]I=\OT1/cmr/m/n/10 180\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100);$
- 
+ines\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 mag; lines; \OT1/cmr/m/n/10 1\OML/cmm/m/i
+t/10 ; CV[]I=\OT1/cmr/m/n/10 180\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100);$ 
  []
 
 
@@ -8607,10 +8555,9 @@ Overfull \hbox (37.73555pt too wide) in paragraph at lines 426--430
  []
 
 
-Overfull \hbox (260.03145pt too wide) in paragraph at lines 426--430
-\OML/cmm/m/it/10 output\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 ==drawLinesAndInterse
-ctions\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 lines; x; y; crosses\OT1/cmr/m/n/10 );$
- 
+Overfull \hbox (250.03142pt too wide) in paragraph at lines 426--430
+\OML/cmm/m/it/10 output\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 drawLinesAndIntersect
+ions\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 lines; x; y; crosses\OT1/cmr/m/n/10 );$ 
  []
 
 
@@ -14818,9 +14765,9 @@ Overfull \hbox (98.15138pt too wide) in paragraph at lines 757--781
  []
 
 
-Overfull \hbox (801.60773pt too wide) in paragraph at lines 757--781
-\OML/cmm/m/it/10 ellipse[]it\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 for\OT1/cmr/m/n
-/10 (\OML/cmm/m/it/10 triangle[]it \OT1/cmr/m/n/10 =
+Overfull \hbox (811.60776pt too wide) in paragraph at lines 757--781
+\OML/cmm/m/it/10 ellipse[]it\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ==for\OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 triangle[]it \OT1/cmr/m/n/10 =
  []
 
 
@@ -14835,7 +14782,7 @@ Overfull \hbox (105.41298pt too wide) in paragraph at lines 757--781
  []
 
 
-Overfull \hbox (928.99805pt too wide) in paragraph at lines 757--781
+Overfull \hbox (960.66476pt too wide) in paragraph at lines 757--781
 \OML/cmm/m/it/10 triangle[]it\OT1/cmr/m/n/10 )[]$ 
  []
 
@@ -14913,11 +14860,6 @@ Overfull \hbox (87.94489pt too wide) in paragraph at lines 782--790
  []
 
 
-Overfull \hbox (95.20648pt too wide) in paragraph at lines 782--790
-\OML/cmm/m/it/10 triangle[]core:size\OT1/cmr/m/n/10 () +
- []
-
-
 Overfull \hbox (106.06915pt too wide) in paragraph at lines 782--790
 \OML/cmm/m/it/10 surf[]core:size\OT1/cmr/m/n/10 ()); \OML/cmm/m/it/10 avy \OT1/
 cmr/m/n/10 =
@@ -14937,11 +14879,6 @@ Overfull \hbox (83.83379pt too wide) in paragraph at lines 782--790
 
 Overfull \hbox (87.94489pt too wide) in paragraph at lines 782--790
 \OML/cmm/m/it/10 ellipse[]core:size\OT1/cmr/m/n/10 () +
- []
-
-
-Overfull \hbox (95.20648pt too wide) in paragraph at lines 782--790
-\OML/cmm/m/it/10 triangle[]core:size\OT1/cmr/m/n/10 () +
  []
 
 
@@ -17557,7 +17494,8 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no = in font nullfont!
-Missing character: There is no 4 in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no ; in font nullfont!
@@ -18930,8 +18868,7 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no c in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no < in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 0 in font nullfont!
+Missing character: There is no 1 in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no ) in font nullfont!
 Missing character: There is no c in font nullfont!
@@ -19866,11 +19803,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1075     d
-            etector.triangles();
+l.1075     /
+            /detector.triangles();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+Missing character: There is no / in font nullfont!
+Missing character: There is no / in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
@@ -19904,11 +19843,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1077     d
-            etector.ellipses();
+l.1077     /
+            /detector.ellipses();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+Missing character: There is no / in font nullfont!
+Missing character: There is no / in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
@@ -19941,11 +19882,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1079     d
-            etector.surfDetector();
+l.1079     /
+            /detector.surfDetector();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+Missing character: There is no / in font nullfont!
+Missing character: There is no / in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
@@ -20030,7 +19973,7 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.1083     /
-            /detector.write_overlay_image(outputPath);
+            /detector.overlay_image = detector.mag;
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -20045,35 +19988,43 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 Missing character: There is no . in font nullfont!
-Missing character: There is no w in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no t in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no v in font nullfont!
 Missing character: There is no e in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no y in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1083     //detector.write_
-                            overlay_image(outputPath);
+l.1083     //detector.overlay_
+                              image = detector.mag;
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1085 
+l.1086 
        
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (263.59883pt too wide) in paragraph at lines 1083--1085
-[]$[]\OML/cmm/m/it/10 verlay[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 outputPath\
-OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 detector:detections[]mage \OT1/cmr/m/n/10 =
+Overfull \hbox (57.73555pt too wide) in paragraph at lines 1083--1086
+[]$[]\OML/cmm/m/it/10 mage \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (100.75198pt too wide) in paragraph at lines 1083--1085
+Overfull \hbox (387.01994pt too wide) in paragraph at lines 1083--1086
+\OML/cmm/m/it/10 detector:mag\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 ==detector:writ
+e[]verlay[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 outputPath\OT1/cmr/m/n/10 ); \
+OML/cmm/m/it/10 ==detector:detections[]mage \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (100.75198pt too wide) in paragraph at lines 1083--1086
 \OML/cmm/m/it/10 detector:overlay[]mage\OT1/cmr/m/n/10 ;$ 
  []
 
@@ -20084,7 +20035,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1086     /
+l.1087     /
             /detector.detections_image = detector.posImage;
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -20113,7 +20064,7 @@ Missing character: There is no s in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1086     //detector.detections_
+l.1087     //detector.detections_
                                  image = detector.posImage;
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -20121,18 +20072,18 @@ you left one out. Proceed, with fingers crossed.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1087 
+l.1088 
        
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (57.73555pt too wide) in paragraph at lines 1086--1087
+Overfull \hbox (57.73555pt too wide) in paragraph at lines 1087--1088
 []$[]\OML/cmm/m/it/10 mage \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (84.30107pt too wide) in paragraph at lines 1086--1087
+Overfull \hbox (84.30107pt too wide) in paragraph at lines 1087--1088
 \OML/cmm/m/it/10 detector:posImage\OT1/cmr/m/n/10 ;$ 
  []
 
@@ -20143,7 +20094,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1088     d
+l.1089     d
             etector.write_detections_image(outputPath);
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -20165,7 +20116,7 @@ Missing character: There is no e in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1088     detector.write_
+l.1089     detector.write_
                           detections_image(outputPath);
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -20173,13 +20124,13 @@ you left one out. Proceed, with fingers crossed.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1089 
+l.1090 
        
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (153.26051pt too wide) in paragraph at lines 1088--1089
+Overfull \hbox (153.26051pt too wide) in paragraph at lines 1089--1090
 []$[]\OML/cmm/m/it/10 etections[]mage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 outputPa
 th\OT1/cmr/m/n/10 );$ 
  []
@@ -20191,7 +20142,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1090     f
+l.1091     f
             loat F1score = detector.calculateF1Score();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -20255,7 +20206,7 @@ Missing character: There is no u in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 1090--1092
+Overfull \hbox (20.0pt too wide) in paragraph at lines 1091--1093
 []
  []
 
@@ -20266,7 +20217,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1093     o
+l.1094     o
             ut.open("f1scores", std::ios::app);
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -20321,13 +20272,13 @@ Missing character: There is no o in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1094     String str = to_
+l.1095     String str = to_
                            string(F1score);
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Undefined control sequence.
-l.1095     out << str + "\n
+l.1096     out << str + "\n
                            ";
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20338,29 +20289,29 @@ and I'll forget about whatever was undefined.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1096 
+l.1097 
        
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 1093--1096
+Overfull \hbox (20.0pt too wide) in paragraph at lines 1094--1097
 []
  []
 
 
-Overfull \hbox (108.1166pt too wide) in paragraph at lines 1093--1096
+Overfull \hbox (108.1166pt too wide) in paragraph at lines 1094--1097
 []\OML/cmm/m/it/10 tring\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 F\OT1/cmr/m/n/10 1\OM
 L/cmm/m/it/10 score\OT1/cmr/m/n/10 ); \OML/cmm/m/it/10 out <<
  []
 
 
-Overfull \hbox (20.86578pt too wide) in paragraph at lines 1093--1096
+Overfull \hbox (20.86578pt too wide) in paragraph at lines 1094--1097
 \OML/cmm/m/it/10 str \OT1/cmr/m/n/10 +
  []
 
 
-Overfull \hbox (12.77782pt too wide) in paragraph at lines 1093--1096
+Overfull \hbox (12.77782pt too wide) in paragraph at lines 1094--1097
 \OT1/cmr/m/n/10 "";$ 
  []
 
@@ -20371,7 +20322,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1097     r
+l.1098     r
             eturn 0;
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -20394,7 +20345,7 @@ Missing character: There is no ; in font nullfont!
 Here is how much of TeX's memory you used:
  11 strings out of 492985
  180 string characters out of 6138637
- 87109 words of memory out of 5000000
+ 87277 words of memory out of 5000000
  3671 multiletter control sequences out of 15000+600000
  3640 words of font info for 14 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
