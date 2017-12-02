@@ -6,7 +6,7 @@
 \usepackage[T1]{fontenc}
 
 %% Sets page size and margins
-\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+%\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 %% Useful packages
 \usepackage{amsmath}
@@ -19,14 +19,24 @@
 \usepackage{float}
 \usepackage{multicol}
 
-\title{The Dartboard Challenge}
+
+\title{\vspace{-3em}COMS30121 - Image Processing and Computer Vision\\The Dartboard Challenge\vspace{-0.3em}}
 \author{Joshua Van Leeuwen \& Karim Allaouat}
+\date{}
+
+\usepackage{titlesec}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=10mm, bottom=17mm}
+
+\setlength{\droptitle}{-5em}
 
 \begin{document}
+\vspace{-10em}
 \maketitle
+\vspace{-4em}
 
 \setcounter{section}{-1}
-\section{Introduction}
+\section*{Introduction}
 
 This task introduces the ability to detect and locate instances of an object
 class in images. This is important as this ability is used in many computer
@@ -35,7 +45,7 @@ framework (an “off the shelf” face detector) and combines it with other
 detection techniques to improve it. The image set used is from the popular
 sport, darts.
 
-\section{The Viola-Jones Object Detector}
+\section*{The Viola-Jones Object Detector}
 
 The Viola-Jones object detection framework is the first object detection
 framework to provide competitive object detection rates in real time. The
@@ -43,6 +53,7 @@ algorithm was used with a strong classifier trained using AdaBoost for
 detecting human faces from the front.
 
 \subsection*{Using the Detector on Human Faces}
+\vspace{-0.7em}
 
 \begin{figure}[H]
   \centering
@@ -60,6 +71,7 @@ detecting human faces from the front.
 \end{figure}
 
 \subsection*{Assessing How the Detector Performs}
+\vspace{-0.7em}
 
 The TPR or True Positive Rate measures the proportion of relevant items that
 are correctly identified. In this case it is the fraction of successfully
@@ -92,9 +104,9 @@ TODO: Talk about how we are going to calculate the F1 score automatically by
 using comparisons of pre determined boxes and comparing the distance (and
 size?).
 
-\section{Building and Testing the Detector}
-
+\section*{Building and Testing the Detector}
 \subsection*{Interpreting TPR vs FPR}
+\vspace{-0.7em}
 
 Figure 2 shows the training of the detector over the 3 stages. The TPR always
 remained as 1 therefore, it was successful in detecting all dartboards. The
@@ -121,6 +133,7 @@ and a 0.4 max false alarm rate.
 \end{figure}
 
 \subsection*{Testing on images}
+\vspace{-0.7em}
 
 \begin{figure}[H]
   \centering
@@ -171,8 +184,9 @@ there is a hit.
 TODO: Talk about how it was shit but we can use the under fitting to out
 advantage to combine with other classifier detectors.
 
-\section{Integration with Shape Detectors}
+\section*{Integration with Shape Detectors}
 \subsection*{Image Results}
+\vspace{-0.7em}
 
 \begin{figure}[H]
   \centering
@@ -198,6 +212,7 @@ advantage to combine with other classifier detectors.
 
 
 \subsection*{Merits and Limitations}
+\vspace{-0.7em}
 Our new dartboard detector did considerably better than the previous, achieving
 an overall \(F_{1}\) score ${0.767}$ with the previous being ${0.163 == check
 this}$. This detector adds more classifiers when analysing images meaning that
@@ -233,7 +248,7 @@ positive hit per dartboard.
 
 
 
-\section{Improving the Detector}
+\section*{Improving the Detector}
 \begin{itemize}
 	\item ellipses
 	\item find a better viola jones classifier
@@ -243,7 +258,7 @@ positive hit per dartboard.
     \item otsu
 \end{itemize}
 
-\section{References}
+\section*{References}
 
 
 \begin{table} [H]
@@ -298,4 +313,5 @@ TODO: talk about surf
 We use a scoring system with surf
 We cluster surfs together togther that count as the same object
 
+\vspace{-4em}
 \end{document}
