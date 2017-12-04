@@ -38,8 +38,8 @@
 
 This task introduces the ability to detect and locate instances of an object
 class in images. This is important as this ability is used in many computer
-vision applications. The task explores the Viola-Jones object detection
-framework (an “off the shelf” face detector) and combines it with other
+vision applications. We will explore the Viola-Jones object detection
+framework (an “off the shelf” face detector) and combine it with other
 detection techniques to improve it. The image set used is from the popular
 sport, darts.
 
@@ -74,17 +74,17 @@ detecting human faces from the front.
 The TPR or True Positive Rate measures the proportion of relevant items that
 are correctly identified. In this case it is the fraction of successfully
 detected faces out of all valid faces in an image. The TPR of dart5.jpg and
-dart15.jpg are 100\% and 67\% respectfully.
-
-A practical difficulty of computing the TPR accurately is that the hits and
-misses have to be manually counted. Also, errors can occur when faces are side
-profile because they become ambiguous as to whether they are valid. It is
-always possible to get 100\% TRP because you can detect everything in the image
-and so will always get all possible hits. It will however, get all the misses
-too. A better way of evaluating the detector would be to calculate the
-\(F_{1}\) score. It takes into account the detectors precision (PPV - Positive
-Prediction Value, how many selected items are relevant) and recall (TPR). A set
-of rules were created to evaluate whether a face was valid:
+dart15.jpg are 100\% and 67\% respectfully. A practical difficulty in computing
+the TPR accurately is that the ground truth bounding boxes need to be manually
+entered in order compare the results of the detector. Also, errors can occur
+when faces are side profile as they become ambiguous as to whether they are
+valid. It is always possible to get 100\% TRP because one can detect every
+possible detection in an image - always resulting in every hit. It will
+however, get all the misses too. A better way of evaluating the detector would
+be to calculate the \(F_{1}\) score. It takes into account the detectors
+precision (PPV - Positive Prediction Value, how many selected items are
+relevant) and recall (TPR). A set of rules were created to evaluate whether a
+face was valid:
 
 
 \begin{itemize}
@@ -98,7 +98,11 @@ of rules were created to evaluate whether a face was valid:
     positives}}$.
 \end{itemize}
 
-As calculating the F1 score is challenging due to manually counting boxes, a process was implemented that makes this easier and scalable. It will compare the centres of the ground truth (which are manually added) and detection boxes and if they are below a certain threshold, will count as a true positive. Table 1 below shows the result of this.
+As calculating the F1 score is challenging due to manually counting boxes, a
+process was implemented that makes this easier and scalable. It will compare
+the centres of the ground truth (which are manually added) and detection boxes.
+If the detected bounding box is below a certain threshold, this will be counted
+as a true positive. Table 1 below shows the result of this.
 
 \begin{table} [H]
 \centering
@@ -118,10 +122,12 @@ dart15 & 3 & 4 & 2 & 2 & 0.5
 \vspace{-0.7em}
 
 Figure 2 shows the training of the detector over the 3 stages. The TPR always
-remained as 1 therefore, it was successful in detecting all dartboards. The
+remained as 1, therefore, it was successful in detecting all dartboards. The
 decreasing FPR portrays that the detector firstly detects as much as it can,
 then reduces the number of objects it detects. As a consequence, it is clear
-that the detector is improving. The parameters of the detector were changed to be optimum. A ratio of 500:1000, positive to negative was used and a max false alarm rate of 0.4. TODO: explain parameter tuning.
+that the detector is improving. The parameters of the detector were changed to
+be optimum. A ratio of 500:1000, positive to negative was used and a maximum
+false alarm rate of 0.4.
 
 \begin{figure}[H]
   \centering
@@ -154,7 +160,6 @@ that the detector is improving. The parameters of the detector were changed to b
    \caption{Result of the trained dartboard detector.}
 \end{figure}
 
-TODO: make this look beter?\newline
 The \(F_{1}\) of the images are:
 \begin{multicols}{4}
     \begin{itemize}
@@ -177,12 +182,21 @@ The \(F_{1}\) of the images are:
     \end{itemize}
 \end{multicols}
 
-The overall \(F_{1}\) score is consequently 0.1625. The \(F_{1}\) score is relatively low therefore the denominator is much bigger
-and can conclude that there was a high number of detections with respect to hits. This means that there were a lot of misses. The usefulness of the plot (Figure 2) is that it can be clearly seen that the detector is currently under fitting as the TPR remains at 1 and the FPR decreases. This fact, along with the \(F_{1}\) scores, portray the results of a poor detector. However, it can be used to an advantage. The under fitting can be combined with other classifying detectors in order to improve results.
+The overall \(F_{1}\) score is consequently 0.1625. The \(F_{1}\) score is
+relatively low meaning the denominator is much bigger concluding that there was
+a high number of detections with respect to hits. This means that there were a
+lot of false positives. The usefulness of the plot (Figure 2) is that it can be
+clearly seen that the detector is currently under fitting - the TPR remains at
+1 while the FPR decreases. This fact, along with the \(F_{1}\) scores, portray
+the results of a poor detector. However, it can be used to an advantage. The
+under fitting can be combined with other classifying detectors in order to
+improve results.
+\\\\
 
 \section*{Integration with Shape Detectors}
 \subsection*{Image Results}
-\vspace{-0.7em}
+Below are some resulting images from our improved detector.
+
 
 \vspace{-2em}
 \begin{figure}[H]
@@ -215,14 +229,17 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
 \vspace{-0.7em}
 \begin{itemize}
     \item This detector adds more classifiers when analysing images meaning
-      that the large set of detections with many negative hits, is able to be
-      reduced by combining each classifier result.
-    \item  This detector works optimally with images where dartboards are in
-      good lighting and are facing straight at the camera in the scene.
-    \item As shown in the dart10.jpg image, the detector can fail to detect two
-      dartboards that are at an angle.
-    \item These failures are due to the circle and line Hough transformation
-      being used in which struggle to detect non-uniform shapes.
+      that the large set of detections with many negative hits can be reduced
+      by combining each classifier result. This detector works optimally with
+      images where dartboards are in good lighting and are facing straight at
+    the camera in the scene.
+  \item As shown in the \textit{dart10.jpg} image, the detector will fail to
+    detect dartboards that are at an angle. These failures are due to the
+    circle and line Hough transformation being used that struggle to detect
+    such non-uniform shapes.
+    \item Our overall average precision became 0.767 with a true positive rate
+      of 0.833 resulting in correctly detecting 16 out of a possible 21
+      dartboards with 5 false positives.
 \end{itemize}
 
 \subsection*{Combination of Detectors}
@@ -233,16 +250,15 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
 
 \begin{itemize}
     \item Our approach was to create new classifiers which would refine the
-      large number of negative and positive hits of the Viola Jones detector
-      hits down to only true positives by accepting Viola Jones hits that were
-      also observed by the line and circle detectors.
-    \item Line detections are acheived by acepting a hit when a large number of
-      lines intersect at a pixel position, reletive with the number of lines
-      found in the image.
-    \item This involves iterating through the set of Viola hits, comparing
-      whether any line or circle hits are contained in the Viola bounding box,
-      accepting if so, rejecting otherwise.
-    \item Accepted hits would change its location based on the average position of itself, along with its combined detections.
+      large set of negative and positive hits of the Viola Jones detector down
+      to only true positives by accepting Viola Jones hits that were also
+      observed by the line and circle detectors.
+    \item Line detections are achieved by accepting a hit when a large number
+      of lines intersect at a pixel position, relative to the number of lines
+      found in the image via the Hough transformation. This involves iterating
+      through the set of Viola hits, comparing whether any line or circle hits
+      are contained in the Viola bounding box, accepting if so, rejecting
+      otherwise. Accepted hits would change its location based on the average position of itself, along with its combined detections.
     \item Circle detections also give the ability to estimate the size of the
       dartboard. Furthermore, it takes the average radii of included circles
       and includes this in the approximation.
@@ -262,53 +278,76 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
     some dartboards had been not been identified by our classifier due to not
     being detected by circles with dartboards that are at an angle. By using
     ellipses, we would be able to capture this shape of valid dartboards. We
-    also chose to consider triangle shapes inside images to detect dartboards
-    as all dartboards have distinct triangles contained that will give more
-    detections that can be combined in our detector.
+    also chose to consider triangles as all dartboards have distinct triangles
+    contained that will give more detections to be combined.
 
 \item Detecting both triangle and ellipse shapes is achieved by first applying
   the Canny edge detector on the grey scale input image. The Canny edge
-    detector, developed by  John F. Canny in 1986 [1] works by calculating the
-    gradient magnitude of each pixel. To determine whether each pixel is part
-    of an edge, two thresholds are applied where pixels greater than the high
-    threshold are considered pixels on an edge, pixels below the low threshold
-    are discarded and pixels in-between the two thresholds are considered edges
-    only if they are connected to a pixel that is above the higher threshold.
-    In order to select an appropriate threshold for each image, the Otsu method
-    is applied.  [2]
+    detector [1] works by calculating the gradient magnitude of each pixel. To
+    determine whether each pixel is part of an edge, two thresholds are applied
+    where pixels greater than the high threshold are considered pixels on an
+    edge, pixels below the low threshold are discarded and pixels in-between
+    the two thresholds are considered edges only if they are connected to a
+    pixel that is above the higher threshold.  In order to select an
+    appropriate threshold for each image, the Otsu method is applied.  [2]
 
 \item The Otsu method is used to determine the largest threshold input for the
-  Canny edge detector and it assumes that the image contains two classes of
+  Canny edge detector. It assumes that the image contains two classes of
     pixels. It then calculates the optimum threshold and partitions the two
-    classes so that their combined variance is maximal. We selected out minimal
-    threshold to be one third of the maximum gradient the Otsu method
-    returned.
+    classes so that their combined variance is maximal. We selected our minimal
+    threshold to be one third of the maximum gradient the Otsu method returned.
 
 \item With our Canny image we then used the \textit{findCountours} function
   which attempts to find groups of points which together form a curve. With
     these contours we can then determine whether, in the case of triangles,
-    form a closed shape of 3 sides, or in the case of ellipses, a contour group
-    with many elements is indicative of a many sided shape - an ellipse.
+    they form a closed shape of 3 sides, or in the case of ellipses, a contour
+    group with many elements is indicative of a many sided shape - an ellipse.
 
 \item In combination with the new shapes being in included into our detector,
   we also investigated another type of image processing technique called
-    \textit{Speeded Up Robust Features} (SURF).
+    \textit{Speeded Up Robust Features} (SURF) - a speeded up version of
+    \textit{Scale-invariant feature transform} (SIFT) [3]. This method aims to
+    take feature vectors of some image, the input object, which are independent
+    of scaling, translation and rotation. Using the opencv SURF detector, we
+    evaluated keypoint features of the dartboard image \textit{dartboard.jpg}.
+    These keypoints are then aimed to be matched against the keypoints of our
+    test images with dartboard in. The resulting matches can then be used as
+    another set of detection data when combining.
 
-\item TODO: Surf Method. We use a scoring system with surf. We cluster surfs together that count as the same object.
+\item With the matched keypoint values found on out test images using SURF, we
+  cluster all neighbouring points as these should be of the same object, and
+    then combine them into our Viola Jones detections like before. Detected
+    triangles and ellipses are also combined.
 
-\item TODO: find better viola jones parameters.
-
-\item Include images to show off improvements.
-
-\item After implementing this the F1 score became 0.86666673333333333333.
 
 \end{itemize}
+Including these approaches into our detector, out new \(F_{1}\) score has imrpoved to 0.838.
+
+
+\vspace{-2em}
+\begin{figure}[H]
+  \centering
+  \subfloat[dart10.jpg Overlay Detections]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/overlay/out10.jpg}\label{fig:result4}}\hfill
+  \subfloat[dart10.jpg Result]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/alldecs/out10.jpg}\label{fig:result4}}\hfill
+  \subfloat[dart11.jpg Overlay Detections]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/overlay/out11.jpg}\label{fig:result4}}\hfill
+  \subfloat[dart11.jpg Results]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/alldecs/out11.jpg}\label{fig:result4}}\hfill
+\end{figure}
+
+\subsection*{Merits and Limitations}
+Including our new detection techniques, we are now able to detect dartbaords
+that are at an angle as well as obscured from view, which we previously could
+not. Although our detector now performs better than before, we have also
+introduced more false positives into our results. This is due to the fact that
+as we include more data from new classifiers, we also increase the data set
+that represent false positives, increasing the chance of falsely detecting.
+
 
 \section*{References}
 
 \begin{enumerate}
 \item http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.420.3300\&rep=rep1\&type=pdf
 \item https://en.wikipedia.org/wiki/Otsu\%27s\_method
+\item http://opencv-python-tutroals.readthedocs.io/en/latest/py\_tutorials/py\_feature2d/py\_surf\_intro/py\_surf\_intro.html
 \end{enumerate}
 
 \vspace{-4em}

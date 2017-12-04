@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  2 DEC 2017 00:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  4 DEC 2017 10:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6712,13 +6712,11 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.348     /
-           /Canny(mag, workImage, 50, 200, 3);
+l.348     C
+           anny(mag, workImage, 50, 200, 3);
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-Missing character: There is no / in font nullfont!
-Missing character: There is no / in font nullfont!
 Missing character: There is no C in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
@@ -6949,10 +6947,11 @@ mr/m/n/10 :
  []
 
 
-Overfull \hbox (484.2821pt too wide) in paragraph at lines 350--357
+Overfull \hbox (516.7046pt too wide) in paragraph at lines 350--357
 \OML/cmm/m/it/10 Defaultparameterstozero:CheckOpenCVreferenceformoreinfo:HoughL
-ines\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 mag; lines; \OT1/cmr/m/n/10 1\OML/cmm/m/i
-t/10 ; CV[]I=\OT1/cmr/m/n/10 180\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100);$ 
+ines\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 workImage; lines; \OT1/cmr/m/n/10 1\OML/c
+mm/m/it/10 ; CV[]I=\OT1/cmr/m/n/10 180\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100);$
+ 
  []
 
 
@@ -19803,13 +19802,11 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1075     /
-            /detector.triangles();
+l.1075     d
+            etector.triangles();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-Missing character: There is no / in font nullfont!
-Missing character: There is no / in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
@@ -19843,13 +19840,11 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1077     /
-            /detector.ellipses();
+l.1077     d
+            etector.ellipses();
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-Missing character: There is no / in font nullfont!
-Missing character: There is no / in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!

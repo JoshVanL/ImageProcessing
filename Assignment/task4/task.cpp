@@ -81,7 +81,7 @@ class Detector {
         void triangles();
         Mat getHoughSpace(Mat);
         Mat groundTruth(char *);
-        float calculateF1Score();
+        vector<float> calculateF1Score();
         void surfDetector();
 };
 
@@ -171,7 +171,7 @@ Mat Detector::groundTruth(char* in) {
   return image;
 }
 
-float Detector::calculateF1Score() {
+vector<float> Detector::calculateF1Score() {
     vector<Point>::iterator groundTruth;
     vector<DartBoard>::iterator dartboard;
     // F1 = (2 * detected hit * TPR) / ((TPR * Det) + Actual Hits)
@@ -182,7 +182,7 @@ float Detector::calculateF1Score() {
     // TPR = (Actual Hits / groundTruth size)
 
     float ActualHits = 0;
-    float precision, TPR;
+    float precision, TPR, F1;
 
     for (dartboard = dartboards.begin(); dartboard != dartboards.end(); ++dartboard) {
         for (groundTruth = groundTruthBoxes.begin(); groundTruth != groundTruthBoxes.end(); ++groundTruth) {
@@ -193,13 +193,21 @@ float Detector::calculateF1Score() {
         }
     }
 
+    vector<float> results;
+
     TPR = ActualHits / groundTruthBoxes.size();
     precision = ActualHits / dartboards.size();
 
+    results.push_back(TPR);
+    results.push_back(precision);
+
     if (TPR == 0 && precision == 0 ) {
-        return 0;
+        results.push_back(0);
+        return results;
     }
-    return (TPR * precision * 2) / (TPR + precision);
+
+    results.push_back((TPR * precision * 2) / (TPR + precision));
+    return results;
 }
 
 Mat Detector::convolve (Mat kernel) {
@@ -426,7 +434,7 @@ void Detector::houghTransformLine() {
     //Canny(mag, workImage, thresholds[0], thresholds[1], 3);
     //Mat output = getHoughSpace(workImage);
     //overlay_image = output;
-    drawLinesAndIntersections(lines, x, y, crosses);
+    //drawLinesAndIntersections(lines, x, y, crosses);
 
     return;
 }
@@ -797,6 +805,7 @@ void Detector::combineDectections() {
     }
 
     deduplicate_hits();
+    deduplicate_hits();
 
     return;
 }
@@ -1003,19 +1012,25 @@ void Detector::surfDetector() {
     while (realPoints.size() > 0) {
         Point p = realPoints.back();
         int count = 1;
+        float avx = p.x;
+        float avy = p.y;
         realPoints.erase(realPoints.end() -1);
         for (unsigned i = realPoints.size(); i-- > 0;) {
             test = realPoints.at(i);
             float distancex = (test.x - p.x) * (test.x - p.x);
             float distancey = (test.y - p.y) * (test.y - p.y);
             float distance = sqrt(distancex - distancey);
-            if (distance < 10) {
+            if (distance < 50) {
                 count++;
-                p.x = int ((p.x + test.x  ) / 2);
-                p.y = int ((p.y + test.y  ) / 2);
+                //p.x = int ((p.x + test.x  ) / 2);
+                //p.y = int ((p.y + test.y  ) / 2);
+                avx += test.x;
+                avy += test.y;
                 realPoints.erase(realPoints.begin() + i);
             }
         }
+        p.x = avx / count;
+        p.y = avy / count;
 
         clusters.push_back(p);
     }
@@ -1072,11 +1087,11 @@ int main( int argc, char* argv[] ) {
 
     detector.violaJones();
 
-    detector.triangles();
+    //detector.triangles();
 
-    detector.ellipses();
+    //detector.ellipses();
 
-    detector.surfDetector();
+    //detector.surfDetector();
 
     detector.combineDectections();
 
@@ -1088,11 +1103,11 @@ int main( int argc, char* argv[] ) {
 
     detector.write_detections_image(outputPath);
 
-    float F1score = detector.calculateF1Score();
+    vector<float> results = detector.calculateF1Score();
     std::ofstream out;
 
     out.open("f1scores", std::ios::app);
-    String str = to_string(F1score);
+    String str = to_string(results[0]) + " " + to_string(results[1]) + " " + to_string(results[2]);
     out << str + "\n";
 
     return 0;
