@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  4 DEC 2017 13:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.16)  4 DEC 2017 13:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -775,6 +775,18 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@dimlist=\toks46
 ) (./report.aux
 
+LaTeX Warning: Label `fig:hough2' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:hough2' multiply defined.
+
+
+LaTeX Warning: Label `fig:hough2' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:hough2' multiply defined.
+
+
 LaTeX Warning: Label `fig:result4' multiply defined.
 
 
@@ -1015,99 +1027,119 @@ Package pdftex.def Info: task3/hough5.jpg  used on input line 206. on input lin
 e 206.
 Package pdftex.def Info: Requested size: 72.70798pt x 56.90189pt on input line 
 206.
-<task3/out5.jpg, id=41, 803.0pt x 679.53876pt>
-File: task3/out5.jpg Graphic file (type jpg)
-<use task3/out5.jpg>
-Package pdftex.def Info: task3/out5.jpg  used on input line 208. on input line 
-208.
+<task4/overB/out5.jpg, id=41, 803.0pt x 679.53876pt>
+File: task4/overB/out5.jpg Graphic file (type jpg)
+<use task4/overB/out5.jpg>
+Package pdftex.def Info: task4/overB/out5.jpg  used on input line 208. on input
+ line 208.
 Package pdftex.def Info: Requested size: 67.24324pt x 56.90459pt on input line 
 208.
+<task3/out5.jpg, id=42, 803.0pt x 679.53876pt>
+File: task3/out5.jpg Graphic file (type jpg)
+<use task3/out5.jpg>
+Package pdftex.def Info: task3/out5.jpg  used on input line 210. on input line 
+210.
+Package pdftex.def Info: Requested size: 67.24324pt x 56.90459pt on input line 
+210.
 [2 <./task2/out4.jpg> <./task2/out11.jpg> <./task2/out14.jpg> <./task2/out15.jp
 g>]
-<task3/mag10.jpg, id=52, 1003.75pt x 727.71875pt>
+<task3/mag10.jpg, id=53, 1003.75pt x 727.71875pt>
 File: task3/mag10.jpg Graphic file (type jpg)
 <use task3/mag10.jpg>
-Package pdftex.def Info: task3/mag10.jpg  used on input line 216. on input line
- 216.
+Package pdftex.def Info: task3/mag10.jpg  used on input line 218. on input line
+ 218.
 Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 2
-16.
-<task3/hough10.jpg, id=53, 461.725pt x 361.35pt>
+18.
+<task3/hough10.jpg, id=54, 461.725pt x 361.35pt>
 File: task3/hough10.jpg Graphic file (type jpg)
 <use task3/hough10.jpg>
-Package pdftex.def Info: task3/hough10.jpg  used on input line 218. on input li
-ne 218.
+Package pdftex.def Info: task3/hough10.jpg  used on input line 220. on input li
+ne 220.
 Package pdftex.def Info: Requested size: 72.70798pt x 56.90189pt on input line 
-218.
-<task3/out10.jpg, id=54, 1003.75pt x 727.71875pt>
+220.
+<task4/overB/out10.jpg, id=55, 1003.75pt x 727.71875pt>
+File: task4/overB/out10.jpg Graphic file (type jpg)
+<use task4/overB/out10.jpg>
+Package pdftex.def Info: task4/overB/out10.jpg  used on input line 222. on inpu
+t line 222.
+Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 2
+22.
+
+Underfull \hbox (badness 3965) in paragraph at lines 222--222
+[]\T1/cmr/m/n/8 (c) |Over-lay De-tec-
+ []
+
+<task3/out10.jpg, id=56, 1003.75pt x 727.71875pt>
 File: task3/out10.jpg Graphic file (type jpg)
 <use task3/out10.jpg>
-Package pdftex.def Info: task3/out10.jpg  used on input line 220. on input line
- 220.
+Package pdftex.def Info: task3/out10.jpg  used on input line 224. on input line
+ 224.
 Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 2
-20.
-<task3/flowchart.png, id=55, 817.0525pt x 243.91125pt>
+24.
+<task3/flowchart.png, id=57, 817.0525pt x 243.91125pt>
 File: task3/flowchart.png Graphic file (type png)
 <use task3/flowchart.png>
-Package pdftex.def Info: task3/flowchart.png  used on input line 248. on input 
-line 248.
+Package pdftex.def Info: task3/flowchart.png  used on input line 253. on input 
+line 253.
 Package pdftex.def Info: Requested size: 381.24701pt x 113.81206pt on input lin
-e 248.
- [3 <./task3/mag5.jpg> <./task3/hough5.jpg> <./task3/out5.jpg> <./task3/mag10.j
-pg> <./task3/hough10.jpg> <./task3/out10.jpg> <./task3/flowchart.png>]
-<task4/overlay/out10.jpg, id=73, 1003.75pt x 727.71875pt>
+e 253.
+[3 <./task3/mag5.jpg> <./task3/hough5.jpg> <./task4/overB/out5.jpg> <./task3/ou
+t5.jpg> <./task3/mag10.jpg> <./task3/hough10.jpg> <./task4/overB/out10.jpg> <./
+task3/out10.jpg> <./task3/flowchart.png>]
+<task4/overlay/out10.jpg, id=77, 1003.75pt x 727.71875pt>
 File: task4/overlay/out10.jpg Graphic file (type jpg)
 <use task4/overlay/out10.jpg>
-Package pdftex.def Info: task4/overlay/out10.jpg  used on input line 330. on in
-put line 330.
+Package pdftex.def Info: task4/overlay/out10.jpg  used on input line 335. on in
+put line 335.
 Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 3
-30.
-<task4/alldecs/out10.jpg, id=74, 1003.75pt x 727.71875pt>
+35.
+<task4/alldecs/out10.jpg, id=78, 1003.75pt x 727.71875pt>
 File: task4/alldecs/out10.jpg Graphic file (type jpg)
 <use task4/alldecs/out10.jpg>
-Package pdftex.def Info: task4/alldecs/out10.jpg  used on input line 331. on in
-put line 331.
+Package pdftex.def Info: task4/alldecs/out10.jpg  used on input line 336. on in
+put line 336.
 Package pdftex.def Info: Requested size: 78.47903pt x 56.8973pt on input line 3
-31.
-<task4/overlay/out11.jpg, id=75, 513.92pt x 289.08pt>
+36.
+<task4/overlay/out11.jpg, id=79, 513.92pt x 289.08pt>
 File: task4/overlay/out11.jpg Graphic file (type jpg)
 <use task4/overlay/out11.jpg>
-Package pdftex.def Info: task4/overlay/out11.jpg  used on input line 332. on in
-put line 332.
+Package pdftex.def Info: task4/overlay/out11.jpg  used on input line 337. on in
+put line 337.
 Package pdftex.def Info: Requested size: 101.15892pt x 56.90189pt on input line
- 332.
-<task4/alldecs/out11.jpg, id=76, 513.92pt x 289.08pt>
+ 337.
+<task4/alldecs/out11.jpg, id=80, 513.92pt x 289.08pt>
 File: task4/alldecs/out11.jpg Graphic file (type jpg)
 <use task4/alldecs/out11.jpg>
-Package pdftex.def Info: task4/alldecs/out11.jpg  used on input line 333. on in
-put line 333.
+Package pdftex.def Info: task4/alldecs/out11.jpg  used on input line 338. on in
+put line 338.
 Package pdftex.def Info: Requested size: 101.15892pt x 56.90189pt on input line
- 333.
+ 338.
 
-Overfull \hbox (26.30023pt too wide) in paragraph at lines 350--351
+Overfull \hbox (26.30023pt too wide) in paragraph at lines 360--361
 []\T1/cmr/m/n/10 http://opencv-python-tutroals.readthedocs.io/en/latest/py_tuto
 rials/py_feature2d/py_surf_intro/py_surf_intro.html 
  []
 
 [4 <./task4/overlay/out10.jpg> <./task4/alldecs/out10.jpg> <./task4/overlay/out
 11.jpg> <./task4/alldecs/out11.jpg>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 354.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 354.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 364.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 364.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 354.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 354.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 364.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 364.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 354.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 364.
  ) 
 Here is how much of TeX's memory you used:
- 29510 strings out of 492985
- 692137 string characters out of 6138637
- 874568 words of memory out of 5000000
- 32546 multiletter control sequences out of 15000+600000
+ 29521 strings out of 492985
+ 692385 string characters out of 6138637
+ 875568 words of memory out of 5000000
+ 32554 multiletter control sequences out of 15000+600000
  13568 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,11n,111p,727b,1944s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1122,10 +1154,10 @@ lic/cm-super/sfrm0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sf
 rm1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></us
 r/share/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf-d
 ist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on report.pdf (4 pages, 3190062 bytes).
+Output written on report.pdf (4 pages, 3638472 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
- 96 compressed objects within 1 object stream
- 36 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 144 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
+ 38 named destinations out of 1000 (max. 500000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

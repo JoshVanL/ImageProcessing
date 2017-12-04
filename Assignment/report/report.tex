@@ -89,8 +89,8 @@ face was valid:
 
 \begin{itemize}
   \item Two eyes and a mouth must be within a boundary to be counted as a hit.
-  \item Two eyes and a mouth must be visible to us in order for it to be
-    counted as valid.
+  \item At least one eye and a mouth must be visible to us in order for it to
+    be included in the ground truth set.
   \item The \(F_{1}\) score will be calculated by: \[\frac{2 \times P \times
     R}{R + P}\] Where
   \item Recall (TPR) ${P = \frac{true positives}{ground truth}}$.
@@ -205,6 +205,8 @@ Below are some resulting images from our improved detector.
   \hfill
   \subfloat[Hough Space]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task3/hough5.jpg}\label{fig:hough1}}
    \hfill
+  \subfloat[Overlay Detections]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/overB/out5.jpg}\label{fig:hough2}}
+   \hfill
   \subfloat[Result]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task3/out5.jpg}\label{fig:result1}}
    \hfill
    \caption{dart5.jpg shows the merits of the detector.}
@@ -217,13 +219,15 @@ Below are some resulting images from our improved detector.
   \hfill
   \subfloat[Hough Space]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task3/hough10.jpg}\label{fig:hough2}}
    \hfill
+  \subfloat[Overlay Detections]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task4/overB/out10.jpg}\label{fig:hough2}}
+   \hfill
   \subfloat[Result]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task3/out10.jpg}\label{fig:result2}}
    \hfill
    \caption{dart10.jpg shows the limitations of the detector.}
 \end{figure}
 
 The new dartboard detector did considerably better than the previous, achieving
-an overall \(F_{1}\) score 0.767 with the previous being 0.163.
+an overall \(F_{1}\) score 0.767.
 
 \subsection*{Merits and Limitations}
 \vspace{-0.7em}
@@ -243,6 +247,7 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
 \end{itemize}
 
 \subsection*{Combination of Detectors}
+\vspace{-0.7em}
 \begin{figure}[H]
   \centering
   \subfloat[Flowchart representing the detector.]{\includegraphics[width=\textwidth, height=40mm, keepaspectratio]{task3/flowchart.png}\label{fig:flowchart}}
@@ -275,7 +280,7 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
 \item In order to improve our dartboard classifier, we considered further
   shapes which help to classify a dartboard being present.  As such, we
     identified two shapes - ellipses and triangles. Firstly, we realised that
-    some dartboards had been not been identified by our classifier due to not
+    some dartboards had not been identified by our classifier due to not
     being detected by circles with dartboards that are at an angle. By using
     ellipses, we would be able to capture this shape of valid dartboards. We
     also chose to consider triangles as all dartboards have distinct triangles
@@ -303,7 +308,7 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
     they form a closed shape of 3 sides, or in the case of ellipses, a contour
     group with many elements is indicative of a many sided shape - an ellipse.
 
-\item In combination with the new shapes being in included into our detector,
+\item In combination with the new shapes being included into our detector,
   we also investigated another type of image processing technique called
     \textit{Speeded Up Robust Features} (SURF) - a speeded up version of
     \textit{Scale-invariant feature transform} (SIFT) [3]. This method aims to
@@ -311,10 +316,10 @@ an overall \(F_{1}\) score 0.767 with the previous being 0.163.
     of scaling, translation and rotation. Using the opencv SURF detector, we
     evaluated keypoint features of the dartboard image \textit{dartboard.jpg}.
     These keypoints are then aimed to be matched against the keypoints of our
-    test images with dartboard in. The resulting matches can then be used as
+    test images, containing dartboards. The resulting matches can then be used as
     another set of detection data when combining.
 
-\item With the matched keypoint values found on out test images using SURF, we
+\item With matched keypoint values found in our test images using SURF, we
   cluster all neighbouring points as these should be of the same object, and
     then combine them into our Viola Jones detections like before. Detected
     triangles and ellipses are also combined.
@@ -340,6 +345,11 @@ not. Although our detector now performs better than before, we have also
 introduced more false positives into our results. This is due to the fact that
 as we include more data from new classifiers, we also increase the data set
 that represent false positives, increasing the chance of falsely detecting.
+
+In spite of the fact that our final detector introduces more false positives
+than previous, we have concluded that it performs the best as the task was to
+create a detector to detect all the dartboards with the fewest amount of false
+positives.
 
 
 \section*{References}

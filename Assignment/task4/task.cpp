@@ -1087,11 +1087,11 @@ int main( int argc, char* argv[] ) {
 
     detector.violaJones();
 
-    //detector.triangles();
+    detector.triangles();
 
-    //detector.ellipses();
+    detector.ellipses();
 
-    //detector.surfDetector();
+    detector.surfDetector();
 
     detector.combineDectections();
 
