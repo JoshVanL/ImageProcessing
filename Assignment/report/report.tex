@@ -184,6 +184,7 @@ and can conclude that there was a high number of detections with respect to hits
 \subsection*{Image Results}
 \vspace{-0.7em}
 
+\vspace{-2em}
 \begin{figure}[H]
   \centering
   \subfloat[Threshold Gradient Magnitude.]{\includegraphics[width=\textwidth, height=20mm, keepaspectratio]{task3/mag5.jpg}\label{fig:mag1}}
@@ -194,6 +195,7 @@ and can conclude that there was a high number of detections with respect to hits
    \hfill
    \caption{dart5.jpg shows the merits of the detector.}
 \end{figure}
+\vspace{-2.5em}
 
 \begin{figure}[H]
   \centering
@@ -206,17 +208,22 @@ and can conclude that there was a high number of detections with respect to hits
    \caption{dart10.jpg shows the limitations of the detector.}
 \end{figure}
 
+The new dartboard detector did considerably better than the previous, achieving
+an overall \(F_{1}\) score 0.767 with the previous being 0.163.
 
 \subsection*{Merits and Limitations}
 \vspace{-0.7em}
-The new dartboard detector did considerably better than the previous, achieving
-an overall \(F_{1}\) score 0.767 with the previous being 0.1625. This detector adds more classifiers when analysing images meaning that
-the large set of detections with many negative hits, is able to be reduced by
-combining each classifier result. This detector works optimally with images
-where dartboards are in good lighting and are facing straight at the camera in
-the scene. As shown in the dart10.jpg image, the detector failed to detect two
-dartboards that are at an angle. This is because of the circle and line Hough
-transformation being used, struggle to detect these. TODO: Talk about how we get the line detections - intersections etc.
+\begin{itemize}
+    \item This detector adds more classifiers when analysing images meaning
+      that the large set of detections with many negative hits, is able to be
+      reduced by combining each classifier result.
+    \item  This detector works optimally with images where dartboards are in
+      good lighting and are facing straight at the camera in the scene.
+    \item As shown in the dart10.jpg image, the detector can fail to detect two
+      dartboards that are at an angle.
+    \item These failures are due to the circle and line Hough transformation
+      being used in which struggle to detect non-uniform shapes.
+\end{itemize}
 
 \subsection*{Combination of Detectors}
 \begin{figure}[H]
@@ -224,49 +231,68 @@ transformation being used, struggle to detect these. TODO: Talk about how we get
   \subfloat[Flowchart representing the detector.]{\includegraphics[width=\textwidth, height=40mm, keepaspectratio]{task3/flowchart.png}\label{fig:flowchart}}
 \end{figure}
 
-As shown, the Viola Jones detector results have a positive detection of every
-dartboard in each image however, have a large amount of false positives. The 
-approach was to create new classifiers which would refine these hits down to
-true positives by accepting Viola Jones hits that were also observed by the
-line and circle detectors. This involves iterating through the set of Viola
-hits, comparing whether any line or circle hits are contained in the Viola
-bounding box, accepting if so, rejecting otherwise. If accepted, this hit would
-change its location based on the average position of itself, along with its
-combined detections. With the use of the circle detections, it also has the ability to estimate the size of the dartboard. Furthermore, it takes the average
-radii of included circles and includes this in the approximation.  Once the new set of accepted detections had been achieved, it was clear that multiple
-bounding boxes overlapped with one another. Therefore, all bounding boxes
-that were overlapping were combined, again averaging the coordinates and size - ensuring one
-positive hit per dartboard.
+\begin{itemize}
+    \item Our approach was to create new classifiers which would refine the
+      large number of negative and positive hits of the Viola Jones detector
+      hits down to only true positives by accepting Viola Jones hits that were
+      also observed by the line and circle detectors.
+    \item Line detections are acheived by acepting a hit when a large number of
+      lines intersect at a pixel position, reletive with the number of lines
+      found in the image.
+    \item This involves iterating through the set of Viola hits, comparing
+      whether any line or circle hits are contained in the Viola bounding box,
+      accepting if so, rejecting otherwise.
+    \item Accepted hits would change its location based on the average position of itself, along with its combined detections.
+    \item Circle detections also give the ability to estimate the size of the
+      dartboard. Furthermore, it takes the average radii of included circles
+      and includes this in the approximation.
+    \item To reduce duplicate detections of the same dartboard, overlapping
+      bounding boxes are combined, also averaging location and size - ensuring
+      one positive hit per dartboard.
+\end{itemize}
 
 
 
 \section*{Improving the Detector}
 
 \begin{itemize}
-\item In order to improve our dartboard classifier, we considered further shapes
-which help to classify a dartboard being present.  As such, we identified two
-shapes - ellipses and triangles. Firstly, we realised that some dartboards
-had been not been identified by our classifier due to not being detected by
-circles with dartboards that are at an angle.  By using ellipses, we would
-be able to capture this shape of valid dartboards. We also chose to consider
-triangle shapes inside images to detect dartboards.  This is because all
-dartboards have distinct triangles contained that will give more detections
-that can be combined in our detector.
+\item In order to improve our dartboard classifier, we considered further
+  shapes which help to classify a dartboard being present.  As such, we
+    identified two shapes - ellipses and triangles. Firstly, we realised that
+    some dartboards had been not been identified by our classifier due to not
+    being detected by circles with dartboards that are at an angle. By using
+    ellipses, we would be able to capture this shape of valid dartboards. We
+    also chose to consider triangle shapes inside images to detect dartboards
+    as all dartboards have distinct triangles contained that will give more
+    detections that can be combined in our detector.
 
-\item Detecting both triangle and ellipse shapes is achieved by first applying the
-Canny edge detector on the grey scale input image.  The Canny edge detector,
-developed by  John F. Canny in 1986 [1] and works by calculating
-the gradient magnitude of each pixel. To determine whether each pixel is part
-of an edge, two thresholds are applied where; pixels greater than the high threshold
-are considered pixels on an edge, pixels below the low threshold are
-discarded and pixels in-between the two thresholds are considered edges only if
-they are connected to a pixel that is above the higher threshold. In order to
-select an appropriate threshold for each image, the Otsu method can be applied.
-[2]
+\item Detecting both triangle and ellipse shapes is achieved by first applying
+  the Canny edge detector on the grey scale input image. The Canny edge
+    detector, developed by  John F. Canny in 1986 [1] works by calculating the
+    gradient magnitude of each pixel. To determine whether each pixel is part
+    of an edge, two thresholds are applied where pixels greater than the high
+    threshold are considered pixels on an edge, pixels below the low threshold
+    are discarded and pixels in-between the two thresholds are considered edges
+    only if they are connected to a pixel that is above the higher threshold.
+    In order to select an appropriate threshold for each image, the Otsu method
+    is applied.  [2]
 
-\item The Otsu method is used to determine the largest threshold input for the Canny
-edge detector and it assumes that the image contains two classes of pixels. It then calculates the optimum threshold and partitions the two classes so that their combined 
-variance is maximal. Canny recommended a upper:lower ratio between 2:1 and 3:1 so we decided that the lower threshold value is one third of the returning value from the Otsu method. 
+\item The Otsu method is used to determine the largest threshold input for the
+  Canny edge detector and it assumes that the image contains two classes of
+    pixels. It then calculates the optimum threshold and partitions the two
+    classes so that their combined variance is maximal. We selected out minimal
+    threshold to be one third of the maximum gradient the Otsu method
+    returned.
+
+\item With our Canny image we then used the \textit{findCountours} function
+  which attempts to find groups of points which together form a curve. With
+    these contours we can then determine whether, in the case of triangles,
+    form a closed shape of 3 sides, or in the case of ellipses, a contour group
+    with many elements is indicative of a many sided shape - an ellipse.
+
+\item In combination with the new shapes being in included into our detector,
+  we also investigated another type of image processing technique called
+    \textit{Speeded Up Robust Features} (SURF).
 
 \item TODO: Surf Method. We use a scoring system with surf. We cluster surfs together that count as the same object.
 
